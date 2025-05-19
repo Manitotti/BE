@@ -1,6 +1,10 @@
 package com.manittotie.manilib.member.domain;
 
 import com.manittotie.manilib.group.domain.MemberGroup;
+import com.manittotie.manilib.guestbook.domain.GusetBook;
+import com.manittotie.manilib.manitottipost.domain.ManitottiComment;
+import com.manittotie.manilib.manitottipost.domain.ManitottiPost;
+import com.manittotie.manilib.matching.domain.MatchingResult;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -21,13 +25,10 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
 
-    private String nickName;
+    private String nickname;
 
     @Column(nullable = false)
     private String password;
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MemberGroup> memberGroups;
 
     // ▶ MemberGroup (N : M 관계 연결해주는 middle table)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -43,7 +44,7 @@ public class Member {
 
     // ▶ 방명록
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<GuestBook> guestBooks;
+    private Set<GusetBook> guestBooks;
 
     // ▶ Matching 결과: giver 역할
     @OneToMany(mappedBy = "giver", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -54,13 +55,13 @@ public class Member {
     private Set<MatchingResult> receivedMatches;
 
     @Builder
-    public Member(String email, String nickName, String password) {
+    public Member(String email, String nickname, String password) {
         this.email = email;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.password = password;
     }
 
-    public void updateNickname(String nickName) {
-        this.nickName = nickName;
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
