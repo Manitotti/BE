@@ -23,26 +23,6 @@ public class AuthService {
     private final RestTemplate restTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void joinProcess(JoinDto joinDto) {
-        String email = joinDto.getEmail();
-        String password = joinDto.getPassword();
-        String nickname = joinDto.getNickname();
-
-        registerOrLoginMember(email, password, nickname);
-    }
-
-    private void registerOrLoginMember(String email, String password, String nickname) {
-        String encodedPassword = bCryptPasswordEncoder.encode(password);
-        Member existingMember = memberRepository.findByEmail(email).orElse(null);
-
-        if (existingMember == null) {
-            memberService.createMember(email, encodedPassword, nickname);
-            log.info("새로운 사용자 회원가입: {}", email);
-        } else {
-            log.info("기존 사용자 로그인: {}", email);
-        }
-    }
-
     public String login(String email, String rawPassword) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("이메일 또는 비밀번호가 올바르지 않습니다."));
@@ -51,7 +31,24 @@ public class AuthService {
             throw new IllegalArgumentException("이메일 또는 비밀번호가 올바르지 않습니다.");
         }
 
-        return jwtUtil.createJwt(email); // ✅ 이메일 기반 JWT 생성
+        return jwtUtil.createJwt(email); // 이메일 기반 JWT 생성
     }
+
+    public void joinProcess(JoinDto joinDto) {
+
+        if(memberRepository.existsByEmail(joinDto.getEmail())) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+
+        String encoded = bCryptPasswordEncoder.encode(joinDto.getPassword());
+        Member member = Member.builder()
+                .email(joinDto.getEmail())
+                .password(encoded)
+                .nickname(joinDto.getNickname())
+                .build();
+        memberRepository.save(member);
+        log.info("회원가입 완료: {}", member.getEmail());
+    }
+
 
 }
