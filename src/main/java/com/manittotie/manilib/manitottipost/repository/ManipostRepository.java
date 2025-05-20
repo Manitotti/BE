@@ -1,4 +1,14 @@
 package com.manittotie.manilib.manitottipost.repository;
 
-public class ManipostRepository {
+import com.manittotie.manilib.manitottipost.domain.ManitottiPost;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ManipostRepository extends JpaRepository<ManitottiPost, Long> {
+    List<ManitottiPost> findAllByGroup_Id(Long groupId);
+    List<ManitottiPost> findAllByGroup_IdAndMember_Id(Long groupId, Long memberId);
+    List<ManitottiPost> findAllByGroup_IdOrderByCreatedAtDesc(Long groupId);
 }
+
+
