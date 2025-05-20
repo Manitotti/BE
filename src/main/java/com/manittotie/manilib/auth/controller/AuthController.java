@@ -1,5 +1,6 @@
 package com.manittotie.manilib.auth.controller;
 
+import com.manittotie.manilib.auth.dto.JoinDto;
 import com.manittotie.manilib.auth.dto.LoginRequest;
 import com.manittotie.manilib.auth.jwt.JwtUtil;
 import com.manittotie.manilib.auth.service.AuthService;
@@ -34,6 +35,14 @@ public class AuthController {
                         "message", "로그인 성공",
                         "token", token
                 ));
+    }
+
+    @Operation(summary = "회원가입 API", description = "이메일, 비밀번호, 닉네임 입력 후 회원가입하는 API입니다.")
+    @PostMapping("/signup")
+    public ResponseEntity<?> joinProcess(@RequestBody JoinDto joinDto) {
+        log.info("signup email: {}", joinDto.getEmail());
+        authService.joinProcess(joinDto);
+        return ResponseEntity.ok(joinDto.getEmail());
     }
 
 }
