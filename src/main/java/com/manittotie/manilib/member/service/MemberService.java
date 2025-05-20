@@ -18,15 +18,6 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public void createMember(String email, String encodedPassword, String nickname) {
-        Member newMember = Member.builder()
-                .email(email)
-                .password(encodedPassword)
-                .nickname(nickname)
-                .build();
-        memberRepository.save(newMember);
-    }
-
     public DuplicateEmailResponse hasEmail(DuplicateEmailRequest request) {
         Optional<Member> member = memberRepository.findByEmail(request.getEmail());
         if(member.isPresent()) {
