@@ -1,6 +1,6 @@
-package com.manittotie.manilib.group.domain;
+package com.manittotie.manilib.groups.domain;
 
-import com.manittotie.manilib.group.listener.GroupListener;
+import com.manittotie.manilib.groups.listener.GroupListener;
 import com.manittotie.manilib.manitottipost.domain.ManitottiPost;
 import com.manittotie.manilib.matching.domain.MatchingSession;
 import com.manittotie.manilib.member.domain.Member;
@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@Table(name = "`groups`")
 @Getter @Builder
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(GroupListener.class)
-public class Group {
+public class Groups {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,15 +40,15 @@ public class Group {
 
 
     // MemberGroup 연결
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MemberGroup> memberGroups;
+    @OneToMany(mappedBy = "groups", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MemberGroups> memberGroups;
 
     // 매칭 세션
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "groups", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MatchingSession> sessions;
 
     // 마니또 게시글
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "groups", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ManitottiPost> posts;
 
 //    public void updateGroup(UpdateGroupData data) {

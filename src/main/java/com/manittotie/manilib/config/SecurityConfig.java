@@ -44,7 +44,11 @@ public class SecurityConfig {
         List<String> permitAllPaths = List.of(
                 "/api/v1/signup",
                 "/api/v1/login",
-                "/api/v1/duplicate/email"
+                "/api/v1/duplicate/email",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-ui.html",
+                "/"
         );
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -65,7 +69,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://manitotti.com")); // 필요시 수정
+        config.setAllowedOriginPatterns(List.of("http://localhost:3000", "http://localhost:8080" ,"https://manitotti.com")); // 필요시 수정
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);

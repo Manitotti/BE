@@ -1,4 +1,4 @@
-package com.manittotie.manilib.group.domain;
+package com.manittotie.manilib.groups.domain;
 
 import com.manittotie.manilib.member.domain.Member;
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 @DynamicInsert
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberGroup {
+public class MemberGroups {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,11 @@ public class MemberGroup {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false)
-    private Group group;
+    private Groups groups;
 
     @Builder
-    public MemberGroup(Member member, Group group) {
+    public MemberGroups(Member member, Groups groups) {
         this.member = member;
-        this.group = group;
+        this.groups = groups;
     }
 }

@@ -29,8 +29,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        log.debug("Checking if filtering is required for path : {}", path);
-        return permitAllpaths.contains(path);
+        boolean skip = permitAllpaths.stream().anyMatch(path::startsWith);
+        log.warn("[JwtFilter] path = {}, skipFilter = {}", path, skip);
+        return permitAllpaths.stream().anyMatch(path::startsWith);
     }
 
     @Override

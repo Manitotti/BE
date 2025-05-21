@@ -42,7 +42,8 @@ public class AuthController {
     public ResponseEntity<?> joinProcess(@RequestBody JoinDto joinDto) {
         log.info("signup email: {}", joinDto.getEmail());
         authService.joinProcess(joinDto);
-        return ResponseEntity.ok(joinDto.getEmail());
+        return ResponseEntity.ok(Map.of("email", joinDto.getEmail()));
+
     }
 
 }

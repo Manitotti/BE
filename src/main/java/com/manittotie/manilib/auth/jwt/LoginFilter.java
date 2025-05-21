@@ -1,7 +1,9 @@
 package com.manittotie.manilib.auth.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manittotie.manilib.auth.dto.CustomUserDetails;
 import com.manittotie.manilib.auth.dto.LoginRequest;
+import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -42,5 +44,28 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException {
+        log.warn("로그인 실패: {}", failed.getMessage());
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"이메일 또는 비밀번호가 잘못되었습니다.\"}");
+    }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult) throws IOException {
+        CustomUserDetails userDetails = (CustomUserDetails) authResult.getPrincipal();
+        String email = userDetails.getEmail();
+        String token = jwtUtil.createJwt(email);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"token\": \"" + token + "\"}");
+    }
+
+
 
 }

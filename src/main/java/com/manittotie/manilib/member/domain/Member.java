@@ -1,6 +1,6 @@
 package com.manittotie.manilib.member.domain;
 
-import com.manittotie.manilib.group.domain.MemberGroup;
+import com.manittotie.manilib.groups.domain.MemberGroups;
 import com.manittotie.manilib.guestbook.domain.GusetBook;
 import com.manittotie.manilib.manitottipost.domain.ManitottiComment;
 import com.manittotie.manilib.manitottipost.domain.ManitottiPost;
@@ -32,7 +32,7 @@ public class Member {
 
     // ▶ MemberGroup (N : M 관계 연결해주는 middle table)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MemberGroup> memberGroups;
+    private Set<MemberGroups> memberGroups;
 
     // ▶ 마니또 게시글
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)

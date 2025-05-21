@@ -1,6 +1,6 @@
 package com.manittotie.manilib.manitottipost.domain;
 
-import com.manittotie.manilib.group.domain.Group;
+import com.manittotie.manilib.groups.domain.Groups;
 import com.manittotie.manilib.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +27,7 @@ public class ManitottiPost {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false)
-    private Group group;
+    private Groups groups;
 
     private String title;
 
