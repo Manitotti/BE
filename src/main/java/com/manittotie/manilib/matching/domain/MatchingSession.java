@@ -32,6 +32,9 @@ public class MatchingSession {
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MatchingResult> results = new HashSet<>();
 
+    @Column(nullable = false)
+    private boolean isRevealed = false; // 결과 비공개 설정
+
     @Builder
     public MatchingSession(Groups groups, Long seed) {
         this.groups = groups;
