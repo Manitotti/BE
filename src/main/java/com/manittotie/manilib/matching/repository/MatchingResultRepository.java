@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MatchingResultRepository extends JpaRepository<MatchingResult, Long> {
     List<MatchingResult> findAllBySessionId(Long sessionId);
-    List<MatchingResult> findAllBySession_GroupsId(Long groupId);
+
 }

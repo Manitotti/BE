@@ -36,8 +36,9 @@ public class MatchingSession {
     private boolean isRevealed = false; // 결과 비공개 설정
 
     @Builder
-    public MatchingSession(Groups groups, Long seed) {
+    public MatchingSession(Groups groups, Long seed, boolean isRevealed) {
         this.groups = groups;
         this.seed = seed;
+        this.isRevealed = isRevealed;
     }
 }

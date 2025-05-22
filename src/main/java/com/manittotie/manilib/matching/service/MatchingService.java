@@ -56,6 +56,7 @@ public class MatchingService {
         MatchingSession session = MatchingSession.builder()
                 .groups(group)
                 .seed(seed)
+                .isRevealed(false)
                 .build();
 
         matchingSessionRepository.save(session);
@@ -101,22 +102,22 @@ public class MatchingService {
     }
 
     // 마니또 매칭 결과 조회 서비스
-//    public List<MatchingResultDto> getMatchingResult(Long groupId, Member member) {
-//        MatchingSession session = matchingSessionRepository.findTopByGroups_IdOrderByCreatedAtDesc(groupId)
-//                .orElseThrow(()-> new IllegalArgumentException("매칭 결과가 존재하지 않습니다."));
-//
-//        boolean isAdmin = session.getGroups().getAdmin().getId().equals(member.getId());
-//        if(!session.isRevealed() && !isAdmin) {
-//            throw new AccessDeniedException("매칭 결과가 공개되지 않았습니다.");
-//        }
-//
-//        return matchingResultRepository.findAllBySession_GroupsId(groupId).stream()
-//                .map(r -> new MatchingResultDto(
-//                        r.getGiver().getId(),
-//                        r.getGiver().getNickname(),
-//                        r.getReceiver().getId(),
-//                        r.getReceiver().getNickname()))
-//                .collect(Collectors.toList());
-//    }
+    public List<MatchingResultDto> getMatchingResult(Long groupId, Member member) {
+        MatchingSession session = matchingSessionRepository.findTopByGroups_IdOrderByCreatedAtDesc(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("매칭 결과가 존재하지 않습니다."));
+
+        boolean isAdmin = session.getGroups().getAdmin().getId().equals(member.getId());
+        if(!session.isRevealed() && !isAdmin) {
+            throw new AccessDeniedException("매칭 결과가 공개되지 않았습니다.");
+        }
+
+        return matchingResultRepository.findAllBySessionId(session.getId()).stream()
+                .map(r -> new MatchingResultDto(
+                        r.getGiver().getId(),
+                        r.getGiver().getNickname(),
+                        r.getReceiver().getId(),
+                        r.getReceiver().getNickname()))
+                .collect(Collectors.toList());
+    }
 
 }

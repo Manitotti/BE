@@ -33,7 +33,11 @@ public class MatchingController {
         return ResponseEntity.ok(matchingService.revealMatching(groupId, memberDetails.getMember()));
     }
 
-//    @Operation(summary = "마니또 결과 조회 API", description = "마니또 결과공개 후 전체 멤버가 조회할 수 있는 API입니다.")
-//    @GetMapping("{groupId}/matching/results")
-//    public ResponseEntity<>
+    @Operation(summary = "마니또 결과 조회 API", description = "마니또 결과공개 후 전체 멤버가 조회할 수 있는 API입니다.")
+    @GetMapping("{groupId}/matching/results")
+    public ResponseEntity<List<MatchingResultDto>> getResults(
+            @PathVariable Long groupId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        return ResponseEntity.ok(matchingService.getMatchingResult(groupId, memberDetails.getMember()));
+    }
 }
