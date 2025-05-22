@@ -3,6 +3,7 @@ package com.manittotie.manilib.groups.controller;
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
 import com.manittotie.manilib.groups.dto.CreateGroupRequest;
 import com.manittotie.manilib.groups.dto.CreateGroupResponse;
+import com.manittotie.manilib.groups.dto.MessageResponse;
 import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,4 +59,14 @@ public class GroupController {
         List<MyGroupResponse> response = groupService.getAllGroups();
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "특정 그룹 삭제 API", description = "관리자가 본인 그룹을 삭제하는 API입니다.")
+    @DeleteMapping("/groups/{groupId}")
+    public ResponseEntity<MessageResponse> deleteGroup(
+            @PathVariable Long groupId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        groupService.deleteGroup(groupId, memberDetails.getMember());
+        return ResponseEntity.ok(new MessageResponse("그룹이 성공적으로 삭제되었습니다."));
+    }
+
 }
