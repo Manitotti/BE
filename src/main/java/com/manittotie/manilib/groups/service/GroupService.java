@@ -11,6 +11,8 @@ import com.manittotie.manilib.member.domain.Member;
 import com.manittotie.manilib.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -108,4 +110,17 @@ public class GroupService {
         }
         return responseList;
     }
+
+    // 그룹 삭제 서비스
+    public void deleteGroup(Long groupId, Member admin) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        if(!group.getAdmin().getId().equals(admin.getId())) {
+            throw new AccessDeniedException("삭제 권한이 없습니다.");
+        }
+
+        groupRepository.delete(group);
+    }
+
 }
