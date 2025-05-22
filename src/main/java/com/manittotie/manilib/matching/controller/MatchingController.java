@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,21 @@ public class MatchingController {
             @PathVariable Long groupId,
             @AuthenticationPrincipal CustomUserDetails memberDetails) {
        return matchingService.startMatching(groupId, memberDetails.getMember());
+    }
+
+    @Operation(summary = "마니또 결과 공개 API", description = "관리자가 마니또 결과를 공개하는 API입니다.")
+    @PostMapping("/{groupId}/matching/reveal")
+    public ResponseEntity<String> revealMatching(
+            @PathVariable Long groupId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        return ResponseEntity.ok(matchingService.revealMatching(groupId, memberDetails.getMember()));
+    }
+
+    @Operation(summary = "마니또 결과 조회 API", description = "마니또 결과공개 후 전체 멤버가 조회할 수 있는 API입니다.")
+    @GetMapping("{groupId}/matching/results")
+    public ResponseEntity<List<MatchingResultDto>> getResults(
+            @PathVariable Long groupId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        return ResponseEntity.ok(matchingService.getMatchingResult(groupId, memberDetails.getMember()));
     }
 }

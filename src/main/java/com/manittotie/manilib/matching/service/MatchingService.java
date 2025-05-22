@@ -56,6 +56,7 @@ public class MatchingService {
         MatchingSession session = MatchingSession.builder()
                 .groups(group)
                 .seed(seed)
+                .isRevealed(false)
                 .build();
 
         matchingSessionRepository.save(session);
@@ -81,6 +82,42 @@ public class MatchingService {
                         r.getReceiver().getNickname()))
                 .collect(Collectors.toList());
 
+    }
+
+    // 마니또 매칭 후 결과 공개 서비스 (조회와 별개)
+    public String revealMatching(Long groupId, Member admin) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        if(!group.getAdmin().getId().equals(admin.getId())) {
+            throw new AccessDeniedException("공개 권한이 없습니다.");
+        }
+
+        MatchingSession session = matchingSessionRepository.findTopByGroups_IdOrderByCreatedAtDesc(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("매칭 결과가 존재하지 않습니다."));
+        session.setRevealed(true);
+        matchingSessionRepository.save(session);
+
+        return "마니또 결과 공개";
+    }
+
+    // 마니또 매칭 결과 조회 서비스
+    public List<MatchingResultDto> getMatchingResult(Long groupId, Member member) {
+        MatchingSession session = matchingSessionRepository.findTopByGroups_IdOrderByCreatedAtDesc(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("매칭 결과가 존재하지 않습니다."));
+
+        boolean isAdmin = session.getGroups().getAdmin().getId().equals(member.getId());
+        if(!session.isRevealed() && !isAdmin) {
+            throw new AccessDeniedException("매칭 결과가 공개되지 않았습니다.");
+        }
+
+        return matchingResultRepository.findAllBySessionId(session.getId()).stream()
+                .map(r -> new MatchingResultDto(
+                        r.getGiver().getId(),
+                        r.getGiver().getNickname(),
+                        r.getReceiver().getId(),
+                        r.getReceiver().getNickname()))
+                .collect(Collectors.toList());
     }
 
 }
