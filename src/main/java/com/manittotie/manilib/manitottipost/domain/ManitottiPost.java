@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @ToString
 @DynamicInsert
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class ManitottiPost {
 
     @Id
@@ -35,13 +35,16 @@ public class ManitottiPost {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ManitottiComment> comments;
 
     @Builder
-    public ManitottiPost(String title, String content, LocalDateTime createdAt) {
+    public ManitottiPost(String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

@@ -18,6 +18,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    // 이메일 중복 확인
     public DuplicateEmailResponse hasEmail(DuplicateEmailRequest request) {
         Optional<Member> member = memberRepository.findByEmail(request.getEmail());
         if(member.isPresent()) {
@@ -26,4 +27,5 @@ public class MemberService {
             return DuplicateEmailResponse.createWith(false);
         }
     }
+
 }
