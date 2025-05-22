@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +24,15 @@ public class GroupController {
         String email = memberDetails.getEmail();
         CreateGroupResponse response = groupService.createGroup(request, email);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "그룹 가입 API", description = "특정 그룹에 가입하는 API입니다.")
+    @PostMapping("/groups/{groupId}/join")
+    public ResponseEntity<String> joinGroup(
+            @PathVariable Long groupId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+        groupService.joinGroup(groupId, email);
+        return ResponseEntity.ok("그룹에 가입되었습니다.");
     }
 }

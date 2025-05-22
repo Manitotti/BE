@@ -36,11 +36,35 @@ public class GroupService {
                 .member(admin)
                 .groups(savedGroup)
                 .build();
+
+        memberGroupRepository.save(memberGroups);
+
         return new CreateGroupResponse(
                 savedGroup.getId(),
                 savedGroup.getGroupName(),
                 savedGroup.getDescription(),
                 admin.getId()
         );
+    }
+
+    // 그룹 가입 서비스
+    public void joinGroup(Long groupId, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        boolean alreadyJoined = memberGroupRepository.existsByMemberAndGroups(member, group);
+        if(alreadyJoined) {
+            throw new IllegalStateException("이미 가입된 그룹입니다.");
+        }
+
+        // 가입 처리
+        MemberGroups join = MemberGroups.builder()
+                .member(member)
+                .groups(group)
+                .build();
+        memberGroupRepository.save(join);
     }
 }

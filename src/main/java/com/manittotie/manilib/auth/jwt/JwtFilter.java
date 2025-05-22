@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         boolean skip = permitAllpaths.stream().anyMatch(path::startsWith);
         log.warn("[JwtFilter] path = {}, skipFilter = {}", path, skip);
-        return permitAllpaths.stream().anyMatch(path::startsWith);
+        return permitAllpaths.stream().anyMatch(path::equals);
     }
 
     @Override
@@ -63,6 +63,8 @@ public class JwtFilter extends OncePerRequestFilter {
         String email = jwtUtil.getEmail(token);
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
+        log.info("토큰 이메일 : {}", email);
+        log.info("DB 조회 결과 : {}", member.getEmail());
         //UserDetails에 회원 정보 객체 담기
         CustomUserDetails customUserDetails = new CustomUserDetails(member);
 
