@@ -14,6 +14,10 @@ import java.util.Collections;
 public class CustomUserDetails implements UserDetails {
     private final Member member;
 
+    public Member getMember() {
+        return member;
+    }
+
     public Long getId() {
         return member.getId();
     }

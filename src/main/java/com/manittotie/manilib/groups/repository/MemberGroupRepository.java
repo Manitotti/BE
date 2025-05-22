@@ -12,7 +12,7 @@ public interface MemberGroupRepository  extends JpaRepository<MemberGroups, Long
     List<Groups> findAllByMember_Id(Long memberId);
 
     List<MemberGroups> findByMember_Id(Long memberId);
-    List<MemberGroups> findByGroups_Id(Long groupId);
+    List<MemberGroups> findAllByGroupsId(Long groupId);
 
     // 그룹 가입 - 이미 가입한 회원인지 확인
     boolean existsByGroupsAndMember(Groups groups, Member member);
