@@ -1,26 +1,26 @@
 package com.manittotie.manilib.matching.domain;
 
 import com.manittotie.manilib.groups.domain.Groups;
+import com.manittotie.manilib.matching.listener.MatchingSessionListener;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@DynamicInsert
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@EntityListeners(MatchingSessionListener.class)
 public class MatchingSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 그룹
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false)
     private Groups groups;
@@ -30,11 +30,11 @@ public class MatchingSession {
     private Long seed;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MatchingResult> results;
+    private Set<MatchingResult> results = new HashSet<>();
 
     @Builder
-    public MatchingSession(LocalDateTime createdAt, Long seed) {
-        this.createdAt = createdAt;
+    public MatchingSession(Groups groups, Long seed) {
+        this.groups = groups;
         this.seed = seed;
     }
 }

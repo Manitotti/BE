@@ -1,5 +1,6 @@
 package com.manittotie.manilib.matching.domain;
 
+import com.manittotie.manilib.matching.domain.MatchingSession;
 import com.manittotie.manilib.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 @Setter
 @ToString
 @DynamicInsert
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class MatchingResult {
 
     @Id

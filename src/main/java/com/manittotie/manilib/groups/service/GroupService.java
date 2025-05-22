@@ -4,17 +4,23 @@ import com.manittotie.manilib.groups.domain.Groups;
 import com.manittotie.manilib.groups.domain.MemberGroups;
 import com.manittotie.manilib.groups.dto.CreateGroupRequest;
 import com.manittotie.manilib.groups.dto.CreateGroupResponse;
+import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.repository.GroupRepository;
 import com.manittotie.manilib.groups.repository.MemberGroupRepository;
 import com.manittotie.manilib.member.domain.Member;
 import com.manittotie.manilib.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class GroupService {
     private final GroupRepository groupRepository;
     private final MemberGroupRepository memberGroupRepository;
@@ -29,7 +35,6 @@ public class GroupService {
                 .description(request.getDescription())
                 .admin(admin)
                 .build();
-
         Groups savedGroup = groupRepository.save(group);
 
         MemberGroups memberGroups = MemberGroups.builder()
@@ -66,5 +71,41 @@ public class GroupService {
                 .groups(group)
                 .build();
         memberGroupRepository.save(join);
+    }
+
+    // 내 그룹 조회
+    public List<MyGroupResponse> getMyGroups(Long memberId) {
+        List<Groups> groupsList = groupRepository.findByMemberGroups_Member_Id(memberId);
+        List<MyGroupResponse> responseList = new ArrayList<>();
+
+        for (Groups group : groupsList) {
+            MyGroupResponse response = new MyGroupResponse();
+
+            response.setGroupId(group.getId());
+            response.setGroupName(group.getGroupName());
+            response.setDescription(group.getDescription());
+            response.setCreatedAt(group.getCreatedAt());
+
+            responseList.add(response);
+        }
+        return responseList;
+    }
+
+    // 전체 그룹 조회
+    public List<MyGroupResponse> getAllGroups() {
+        List<Groups> groupList = groupRepository.findAll();
+        List<MyGroupResponse> responseList = new ArrayList<>();
+
+        for (Groups group : groupList) {
+            MyGroupResponse response = new MyGroupResponse();
+
+            response.setGroupId(group.getId());
+            response.setGroupName(group.getGroupName());
+            response.setDescription(group.getDescription());
+            response.setCreatedAt(group.getCreatedAt());
+
+            responseList.add(response);
+        }
+        return responseList;
     }
 }
