@@ -1,12 +1,11 @@
 package com.manittotie.manilib.groups.controller;
 
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
-import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.dto.CreateGroupRequest;
 import com.manittotie.manilib.groups.dto.CreateGroupResponse;
+import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +36,7 @@ public class GroupController {
     @PostMapping("/groups/{groupId}/join")
     public ResponseEntity<String> joinGroup(
             @PathVariable Long groupId,
-            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails memberDetails) {
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
         String email = memberDetails.getEmail();
         groupService.joinGroup(groupId, email);
         return ResponseEntity.ok("그룹에 가입되었습니다.");

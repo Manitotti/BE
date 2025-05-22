@@ -2,17 +2,17 @@ package com.manittotie.manilib.groups.service;
 
 import com.manittotie.manilib.groups.domain.Groups;
 import com.manittotie.manilib.groups.domain.MemberGroups;
-import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.dto.CreateGroupRequest;
 import com.manittotie.manilib.groups.dto.CreateGroupResponse;
+import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.repository.GroupRepository;
 import com.manittotie.manilib.groups.repository.MemberGroupRepository;
-import jakarta.transaction.Transactional;
 import com.manittotie.manilib.member.domain.Member;
 import com.manittotie.manilib.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
