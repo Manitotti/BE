@@ -38,3 +38,9 @@ out/
 
 ### properties ###
 **/application.yaml
+
+### deploy.sh ###
+deploy.sh
+
+### key ###
+manitotti-test-ver1.pem
