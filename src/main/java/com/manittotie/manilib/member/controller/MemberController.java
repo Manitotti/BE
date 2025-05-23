@@ -2,16 +2,16 @@ package com.manittotie.manilib.member.controller;
 
 import com.manittotie.manilib.member.dto.DuplicateEmailRequest;
 import com.manittotie.manilib.member.dto.DuplicateEmailResponse;
+import com.manittotie.manilib.member.dto.MemberDto;
 import com.manittotie.manilib.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -26,5 +26,13 @@ public class MemberController {
         log.info("Request to CHECK duplicate email");
         DuplicateEmailResponse response = memberService.hasEmail(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "그룹 내 전체 멤버 조회 API", description = "본인이 가입한 그룹에 한해 멤버를 전체 조회할 수 있는 API입니다.")
+    @GetMapping("/{groupId}/members")
+    public ResponseEntity<List<MemberDto>> getGroupMembers(
+            @PathVariable Long groupId) {
+        List<MemberDto> members = memberService.getMemberByGroup(groupId);
+        return ResponseEntity.ok(members);
     }
 }
