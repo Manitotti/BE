@@ -69,7 +69,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:3000", "http://localhost:8080" ,"https://manitotti.com")); // 필요시 수정
+        config.setAllowedOriginPatterns(List.of("http://localhost:3000", "http://localhost:8080" ,"https://mini2team.lion.it.kr")); // 필요시 수정
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
