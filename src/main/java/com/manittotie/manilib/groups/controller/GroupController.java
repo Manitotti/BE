@@ -6,6 +6,7 @@ import com.manittotie.manilib.groups.dto.CreateGroupResponse;
 import com.manittotie.manilib.groups.dto.MessageResponse;
 import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.service.GroupService;
+import com.manittotie.manilib.member.dto.KickMemberRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,16 @@ public class GroupController {
             @AuthenticationPrincipal CustomUserDetails memberDetails) {
         groupService.deleteGroup(groupId, memberDetails.getMember());
         return ResponseEntity.ok(new MessageResponse("그룹이 성공적으로 삭제되었습니다."));
+    }
+
+    @Operation(summary = "멤버 추방 API", description = "관리자가 그룹 멤버를 추방하는 API입니다.")
+    @DeleteMapping("/groups/{groupId}/kick")
+    public ResponseEntity<?> kickMember (
+            @PathVariable Long groupId,
+            @RequestBody KickMemberRequest request,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        groupService.kickMember(groupId, request.getMemberId(), memberDetails.getMember());
+        return ResponseEntity.ok(new MessageResponse("멤버가 성공적으로 추방되었습니다."));
     }
 
 }

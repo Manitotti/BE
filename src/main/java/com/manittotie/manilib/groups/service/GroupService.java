@@ -123,4 +123,24 @@ public class GroupService {
         groupRepository.delete(group);
     }
 
+    // 그룹에서 멤버 추방 서비스
+    public void kickMember(Long groupId, Long kickMemberId, Member admin) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        if(!group.getAdmin().getId().equals(admin.getId())) {
+            throw new AccessDeniedException("추방 권한이 없습니다.");
+        }
+
+        MemberGroups memberGroups = memberGroupRepository
+                .findByGroupsIdAndMemberId(groupId, kickMemberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자는 그룹에 존재하지 않습니다."));
+
+        if(memberGroups.getMember().getId().equals(admin.getId())) {
+            throw new IllegalArgumentException("관리자는 자신을 추방할 수 없습니다.");
+    }
+
+        memberGroupRepository.delete(memberGroups);
+    }
+
 }
