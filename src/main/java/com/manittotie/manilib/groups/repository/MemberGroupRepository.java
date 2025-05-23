@@ -6,6 +6,7 @@ import com.manittotie.manilib.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberGroupRepository  extends JpaRepository<MemberGroups, Long> {
     boolean existsByMemberAndGroups(Member member, Groups group);
@@ -16,4 +17,6 @@ public interface MemberGroupRepository  extends JpaRepository<MemberGroups, Long
 
     // 그룹 가입 - 이미 가입한 회원인지 확인
     boolean existsByGroupsAndMember(Groups groups, Member member);
+
+    Optional<MemberGroups> findByGroupsIdAndMemberId(Long groupId, Long memberId);
 }
