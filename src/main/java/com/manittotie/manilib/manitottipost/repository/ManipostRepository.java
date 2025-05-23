@@ -8,7 +8,7 @@ import java.util.List;
 public interface ManipostRepository extends JpaRepository<ManitottiPost, Long> {
     List<ManitottiPost> findAllByGroups_Id(Long groupId);
     List<ManitottiPost> findAllByGroups_IdAndMember_Id(Long groupId, Long memberId);
-    List<ManitottiPost> findAllByGroups_IdOrderByCreatedAtDesc(Long groupId);
+    List<ManitottiPost> findAllByGroupsIdOrderByCreatedAtDesc(Long groupId);
 }
 
 

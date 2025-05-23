@@ -2,18 +2,23 @@ package com.manittotie.manilib.manitottipost.service;
 
 import com.manittotie.manilib.groups.domain.Groups;
 import com.manittotie.manilib.groups.repository.GroupRepository;
+import com.manittotie.manilib.groups.repository.MemberGroupRepository;
 import com.manittotie.manilib.manitottipost.domain.ManitottiPost;
 import com.manittotie.manilib.manitottipost.dto.AddManiPostRequest;
 import com.manittotie.manilib.manitottipost.dto.AddManiPostResponse;
+import com.manittotie.manilib.manitottipost.dto.GetManiPostResponse;
 import com.manittotie.manilib.manitottipost.repository.ManipostRepository;
 import com.manittotie.manilib.member.domain.Member;
 import com.manittotie.manilib.member.repository.MemberRepository;
 import com.manittotie.manilib.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -23,6 +28,7 @@ public class ManiPostService {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final GroupRepository groupRepository;
+    private final MemberGroupRepository memberGroupRepository;
 
     // 마니또띠 게시글 작성
     public AddManiPostResponse createManiPost(AddManiPostRequest request, String email) {
@@ -45,13 +51,37 @@ public class ManiPostService {
         return new AddManiPostResponse(
                 saved.getId(),
                 groups.getId(),
-                member.getId(),
                 saved.getTitle(),
                 saved.getContent(),
                 saved.getCreatedAt(),
                 saved.getUpdatedAt()
         );
 
-
     }
+
+    public List<GetManiPostResponse> getPostsByGroup(Long groupId, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        boolean isMember = memberGroupRepository.existsByMemberAndGroups(member, group);
+        if(!isMember) {
+            throw new AccessDeniedException("해당 그룹 게시글에 대한 조회 권한이 없습니다.");
+        }
+
+        List<ManitottiPost> posts = manipostRepository.findAllByGroupsIdOrderByCreatedAtDesc(groupId);
+
+        return posts.stream()
+                .map(p -> new GetManiPostResponse(
+                        p.getId(),
+                        "익명",
+                        p.getTitle(),
+                        p.getContent(),
+                        p.getCreatedAt(),
+                        p.getUpdatedAt()))
+                .collect(Collectors.toList());
+    }
+
 }
