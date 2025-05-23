@@ -70,6 +70,18 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
+    // 댓글 수정
+    @Transactional
+    public void updateComment(Long commentId, String newContent, Member member) {
+        ManitottiComment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
+
+        if (!comment.getMember().equals(member)) {
+            throw new AccessDeniedException("수정 권한 없음");
+        }
+
+        comment.setContent(newContent);
+    }
 
 
 
