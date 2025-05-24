@@ -30,6 +30,7 @@ public class ManitottiComment {
     private String unknownNickname;
     private String content;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @Builder
     public ManitottiComment(String unknownNickname, String content, LocalDateTime createdAt) {
