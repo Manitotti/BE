@@ -59,6 +59,7 @@ public class ManiPostService {
 
     }
 
+    // 그룹 내의 전체 게시글 조회
     public List<GetManiPostResponse> getPostsByGroup(Long groupId, String email) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 사용자입니다."));
@@ -79,6 +80,7 @@ public class ManiPostService {
                         "익명",
                         p.getTitle(),
                         p.getContent(),
+                        p.getComments() != null ? p.getComments().size() : 0, // 댓글 수 계산
                         p.getCreatedAt(),
                         p.getUpdatedAt()))
                 .collect(Collectors.toList());

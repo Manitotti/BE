@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemberGroupRepository  extends JpaRepository<MemberGroups, Long> {
+
     boolean existsByMemberAndGroups(Member member, Groups group);
     List<Groups> findAllByMember_Id(Long memberId);
 
