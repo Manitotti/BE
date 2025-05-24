@@ -77,6 +77,7 @@ public class CommentService {
         }
 
         comment.setContent(newContent);
+        comment.setUpdatedAt(LocalDateTime.now());
     }
 
 
