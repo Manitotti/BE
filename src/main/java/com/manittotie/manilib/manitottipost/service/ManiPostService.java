@@ -135,7 +135,7 @@ public class ManiPostService {
         ManitottiPost post = manipostRepository.findById(postId)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 
-        if(!post.getGroups().equals(groupId)) {
+        if(!post.getGroups().getId().equals(groupId)) {
             throw new AccessDeniedException("해당 그룹에 존재하지 않는 게시글입니다.");
         }
 
