@@ -50,4 +50,15 @@ public class ManiPostController {
         GetManiPostDetailResponse response = maniPostService.getPostDetail(groupId, postId, email);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "특정 게시글 삭제", description = "오직 관리자나 작성자만이 해당 게시글을 삭제할 수 있는 API입니다.")
+    @DeleteMapping("/{groupId}/maniposts/{postId}")
+    public ResponseEntity<?> deletePost(
+            @PathVariable Long groupId,
+            @PathVariable Long postId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+        maniPostService.deletePost(groupId, postId, email);
+        return ResponseEntity.ok("게시글이 삭제되었습니다.");
+    }
 }

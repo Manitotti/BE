@@ -5,7 +5,7 @@ FROM --platform=linux/amd64 openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the Spring Boot jar file into the container
-COPY build/libs/manilib-0.0.1-SNAPSHOT.jar .
+COPY manilib-0.0.1-SNAPSHOT.jar .
 
 # Expose the port the app runs on
 EXPOSE 8080
