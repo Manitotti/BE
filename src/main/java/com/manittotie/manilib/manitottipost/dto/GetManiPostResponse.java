@@ -13,14 +13,16 @@ public class GetManiPostResponse {
     private String writer; // 익명으로 설정해둠
     private String title;
     private String content;
+    private int commentCount;
     private String createdAt;
     private String updatedAt;
 
-    public GetManiPostResponse(Long id, String writer, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public GetManiPostResponse(Long id, String writer, String title, String content, int commentCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.writer = "익명";
         this.title = title;
         this.content = content;
+        this.commentCount = commentCount;
         this.createdAt = createdAt != null ? createdAt.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) : null;
         this.updatedAt = updatedAt != null ? updatedAt.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) : null;
     }
