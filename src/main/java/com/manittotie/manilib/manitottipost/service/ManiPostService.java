@@ -124,4 +124,29 @@ public class ManiPostService {
                 commentResponses);
     }
 
+    // 게시글 삭제 서비스 (관리자는 강제 삭제 가능)
+    public void deletePost(Long groupId, Long postId, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        ManitottiPost post = manipostRepository.findById(postId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+
+        if(!post.getGroups().equals(groupId)) {
+            throw new AccessDeniedException("해당 그룹에 존재하지 않는 게시글입니다.");
+        }
+
+        boolean isAuthor = post.getMember().getId().equals(member.getId());
+        boolean isAdmin = group.getAdmin().getId().equals(member.getId());
+
+        if(!isAdmin && !isAuthor) {
+            throw new AccessDeniedException("게시글 삭제 권한이 없습니다.");
+        }
+
+        manipostRepository.delete(post);
+
+    }
 }

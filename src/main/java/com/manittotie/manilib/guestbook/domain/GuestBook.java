@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GusetBook {
+public class GuestBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class GusetBook {
     private LocalDateTime createdAt;
 
     @Builder
-    public GusetBook(String content, LocalDateTime createdAt) {
+    public GuestBook(String content, LocalDateTime createdAt) {
         this.content = content;
         this.createdAt = createdAt;
     }

@@ -1,7 +1,7 @@
 package com.manittotie.manilib.member.domain;
 
 import com.manittotie.manilib.groups.domain.MemberGroups;
-import com.manittotie.manilib.guestbook.domain.GusetBook;
+import com.manittotie.manilib.guestbook.domain.GuestBook;
 import com.manittotie.manilib.manitottipost.domain.ManitottiComment;
 import com.manittotie.manilib.manitottipost.domain.ManitottiPost;
 import com.manittotie.manilib.matching.domain.MatchingResult;
@@ -44,7 +44,7 @@ public class Member {
 
     // ▶ 방명록
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<GusetBook> guestBooks;
+    private Set<GuestBook> guestBooks;
 
     // ▶ Matching 결과: giver 역할
     @OneToMany(mappedBy = "giver", cascade = CascadeType.ALL, orphanRemoval = true)
