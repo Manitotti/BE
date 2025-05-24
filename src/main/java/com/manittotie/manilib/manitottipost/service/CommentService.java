@@ -1,6 +1,5 @@
 package com.manittotie.manilib.manitottipost.service;
 
-import com.manittotie.manilib.groups.domain.Groups;
 import com.manittotie.manilib.manitottipost.domain.ManitottiComment;
 import com.manittotie.manilib.manitottipost.domain.ManitottiPost;
 import com.manittotie.manilib.manitottipost.dto.AddCommentRequest;
@@ -19,6 +18,7 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
     private final ManipostRepository manipostRepository;
@@ -55,7 +55,6 @@ public class CommentService {
     }
 
     // 댓글 삭제
-    @Transactional
     public void deleteComment(Long commentId, Member member) {
 
         ManitottiComment comment = commentRepository.findById(commentId)
@@ -69,12 +68,11 @@ public class CommentService {
     }
 
     // 댓글 수정
-    @Transactional
     public void updateComment(Long commentId, String newContent, Member member) {
         ManitottiComment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
 
-        if (!comment.getMember().equals(member)) {
+        if (!comment.getMember().getId().equals(member.getId())) {
             throw new AccessDeniedException("수정 권한 없음");
         }
 
