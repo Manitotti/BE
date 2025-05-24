@@ -50,8 +50,6 @@ public class CommentService {
         response.setContent(comment.getContent());
         response.setCreatedAt(comment.getCreatedAt());
         response.setUpdatedAt(null);
-        response.setUpdateButton(true);
-        response.setDeleteButton(true);
 
         return response;
     }
