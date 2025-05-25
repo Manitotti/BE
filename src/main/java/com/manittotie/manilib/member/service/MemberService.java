@@ -72,17 +72,6 @@ public class MemberService {
         return response;
     }
 
-    // 상태메세지 수정
-    public MessageResponse UpdateMyMessage(MessageRequest request, String email) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다"));
-
-
-
-        member.setMyMessage(request.getMessage());
-        return new MessageResponse(member.getId(), member.getMyMessage());
-    }
-
     // 닉네임 업데이트 서비스
     public NickNameResponse UpdateNickname(NickNameRequest request, String email) {
         Member member = memberRepository.findByEmail(email)
@@ -108,7 +97,7 @@ public class MemberService {
 
         boolean isMine = profileOwner.getId().equals(viewer.getId());
 
-        List<GuestBookResponse> guestBooks = profileOwner.getGuestBooks().stream()
+        List<GuestBookResponse> guestBooks = profileOwner.getOwnerGuestBooks().stream()
                 .map(guestBook -> new GuestBookResponse(guestBook.getContent(), guestBook.getCreatedAt()))
                 .collect(Collectors.toList());
 

@@ -10,6 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageResponse {
-    private Long messageId;
     private String message;
 }
