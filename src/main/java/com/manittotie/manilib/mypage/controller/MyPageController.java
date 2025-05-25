@@ -2,6 +2,8 @@ package com.manittotie.manilib.mypage.controller;
 
 
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
+import com.manittotie.manilib.mypage.dto.MessageRequest;
+import com.manittotie.manilib.mypage.dto.MessageResponse;
 import com.manittotie.manilib.mypage.dto.MyPageResponse;
 import com.manittotie.manilib.mypage.service.MyPageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +28,16 @@ public class MyPageController {
         Long memberId = userDetails.getId();
         MyPageResponse response = myPageService.GetMyPage(memberId);
 
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "상태메세지 작성", description = "상태메세지를 작성합니다.")
+    @PostMapping("/message")
+    public ResponseEntity<?> WriteMyMessage(
+            @RequestBody MessageRequest request,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+        MessageResponse response = myPageService.WriteMyMessage(request, email);
         return ResponseEntity.ok(response);
     }
 
