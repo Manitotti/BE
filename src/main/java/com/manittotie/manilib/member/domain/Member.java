@@ -44,9 +44,13 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ManitottiComment> comments;
 
-    // ▶ 방명록
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<GuestBook> guestBooks;
+    // ▶ 방명록 - 방명록 주인
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GuestBook> ownerGuestBooks;
+
+    // ▶ 방명록 - 방명록 작성자
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GuestBook> writerGuestBooks;
 
     // ▶ Matching 결과: giver 역할
     @OneToMany(mappedBy = "giver", cascade = CascadeType.ALL, orphanRemoval = true)

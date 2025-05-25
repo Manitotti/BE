@@ -33,10 +33,9 @@ public class GuestBookController {
     @GetMapping("/{memberId}/guests")
     @Operation(summary = "방명록 조회 API", description = "특정 사용자의 방명록 목록을 조회하는 API입니다.")
     public ResponseEntity<List<GuestBookResponse>> getGuestBooks(
-            @PathVariable Long memberId
-    ) {
-        List<GuestBookResponse> responses = guestBookService.getGuestBooks(memberId);
+            @PathVariable Long memberId) {
+        List<GuestBookResponse> guestBooks = guestBookService.getGuestBooks(memberId);
 
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok(guestBooks);
     }
 }

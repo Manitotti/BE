@@ -66,5 +66,16 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "프로필 조회", description = "회원 프로필을 조회합니다.")
+    @GetMapping("/profile/{memberId}")
+    public ResponseEntity<ProfileResponse> getProfile(
+            @PathVariable Long memberId,
+            @AuthenticationPrincipal CustomUserDetails userDetails // 혹은 UserDetails
+    ) {
+        String email = userDetails.getUsername(); // 보통 username이 이메일인 경우가 많음
+        ProfileResponse profile = memberService.getProfile(memberId, email);
+        return ResponseEntity.ok(profile);
+    }
+
 
 }
