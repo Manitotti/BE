@@ -1,8 +1,7 @@
-package com.manittotie.manilib.mypage.dto;
+package com.manittotie.manilib.member.dto;
 
-import lombok.*;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

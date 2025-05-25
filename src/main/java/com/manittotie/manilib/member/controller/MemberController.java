@@ -1,14 +1,19 @@
 package com.manittotie.manilib.member.controller;
 
+import com.manittotie.manilib.auth.dto.CustomUserDetails;
 import com.manittotie.manilib.member.dto.DuplicateEmailRequest;
 import com.manittotie.manilib.member.dto.DuplicateEmailResponse;
 import com.manittotie.manilib.member.dto.MemberDto;
+import com.manittotie.manilib.member.dto.MessageRequest;
 import com.manittotie.manilib.member.service.MemberService;
+import com.manittotie.manilib.member.dto.MessageResponse;
+import com.manittotie.manilib.member.dto.MyPageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +24,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class MemberController {
     private final MemberService memberService;
+
 
     @Operation(summary = "이메일 중복 확인 API", description = "이메일 중복을 확인하는 API입니다.")
     @PostMapping("/duplicate/email")
@@ -35,4 +41,24 @@ public class MemberController {
         List<MemberDto> members = memberService.getMemberByGroup(groupId);
         return ResponseEntity.ok(members);
     }
+
+    @Operation(summary = "마이페이지 조회", description = "마이페이지를 조회합니다.")
+    @GetMapping("/mypage")
+    public ResponseEntity<?> getMyPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long memberId = userDetails.getId();
+        MyPageResponse response = memberService.GetMyPage(memberId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "상태메세지 작성", description = "상태메세지를 작성합니다.")
+    @PostMapping("/mypage/message")
+    public ResponseEntity<?> WriteMyMessage(
+            @RequestBody MessageRequest request,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+        MessageResponse response = memberService.WriteMyMessage(request, email);
+        return ResponseEntity.ok(response);
+    }
+
 }

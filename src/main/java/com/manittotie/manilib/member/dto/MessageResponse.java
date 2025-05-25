@@ -1,14 +1,14 @@
-package com.manittotie.manilib.mypage.dto;
+package com.manittotie.manilib.member.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
 @NoArgsConstructor
-public class MessageRequest {
+public class MessageResponse {
     private String message;
 }
