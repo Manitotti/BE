@@ -7,6 +7,7 @@ import com.manittotie.manilib.groups.repository.MemberGroupRepository;
 import com.manittotie.manilib.matching.domain.MatchingResult;
 import com.manittotie.manilib.matching.domain.MatchingSession;
 import com.manittotie.manilib.matching.dto.MatchingResultDto;
+import com.manittotie.manilib.matching.dto.MatchingStatusResponse;
 import com.manittotie.manilib.matching.repository.MatchingResultRepository;
 import com.manittotie.manilib.matching.repository.MatchingSessionRepository;
 import com.manittotie.manilib.member.domain.Member;
@@ -31,7 +32,7 @@ public class MatchingService {
     private final MatchingResultRepository matchingResultRepository;
 
     // 마니또띠 매칭 서비스
-    public List<MatchingResultDto> startMatching(Long groupId, Member admin) {
+    public MatchingStatusResponse startMatching(Long groupId, Member admin) {
         Groups group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 그룹입니다."));
 
@@ -49,6 +50,14 @@ public class MatchingService {
                 .map(MemberGroups::getMember)
                 .collect(Collectors.toList());
 
+        // 매칭 시작 전, 이전 세션 결과 전부 삭제하고 새로 저장하는 걸로 바꾸기...
+        List<MatchingSession> existingSessions = matchingSessionRepository.findAllByGroupsId(groupId);
+        for (MatchingSession s : existingSessions) {
+            matchingResultRepository.deleteAllBySessionId(s.getId());
+        }
+
+        matchingSessionRepository.deleteAll(existingSessions);
+
         // 매칭을 위한 시드 생성
         long seed = System.currentTimeMillis();
         Collections.shuffle(memberList, new Random(seed));
@@ -60,8 +69,10 @@ public class MatchingService {
                 .build();
 
         matchingSessionRepository.save(session);
+        matchingSessionRepository.flush();
 
         List<MatchingResult> results = new ArrayList<>();
+        List<MatchingResultDto> resultDtos = new ArrayList<>();
         for(int i = 0; i < memberList.size(); i++) {
             Member giver = memberList.get(i);
             Member receiver = memberList.get((i + 1) % memberList.size());
@@ -71,16 +82,21 @@ public class MatchingService {
             result.setGiver(giver);
             result.setReceiver(receiver);
             results.add(result);
+
+            resultDtos.add(new MatchingResultDto(
+                    giver.getId(),
+                    giver.getNickname(),
+                    receiver.getId(),
+                    receiver.getNickname()));
         }
 
         matchingResultRepository.saveAll(results);
-        return results.stream()
-                .map(r -> new MatchingResultDto(
-                        r.getGiver().getId(),
-                        r.getGiver().getNickname(),
-                        r.getReceiver().getId(),
-                        r.getReceiver().getNickname()))
-                .collect(Collectors.toList());
+
+        return new MatchingStatusResponse(
+                true,
+                false,
+                resultDtos
+        );
 
     }
 
@@ -103,7 +119,7 @@ public class MatchingService {
 
     // 마니또 매칭 결과 조회 서비스
     public List<MatchingResultDto> getMatchingResult(Long groupId, Member member) {
-        MatchingSession session = matchingSessionRepository.findTopByGroups_IdOrderByCreatedAtDesc(groupId)
+        MatchingSession session = matchingSessionRepository.findTopByGroups_IdAndIsRevealedTrueOrderByCreatedAtDesc(groupId)
                 .orElseThrow(()-> new IllegalArgumentException("매칭 결과가 존재하지 않습니다."));
 
         boolean isAdmin = session.getGroups().getAdmin().getId().equals(member.getId());

@@ -8,5 +8,8 @@ import java.util.Optional;
 
 public interface MatchingSessionRepository extends JpaRepository<MatchingSession, Long> {
     List<MatchingSession> findAllByGroupsId(Long groupId);
+
+    Optional<MatchingSession> findTopByGroups_IdAndIsRevealedTrueOrderByCreatedAtDesc(Long groupId);
+
     Optional<MatchingSession> findTopByGroups_IdOrderByCreatedAtDesc(Long groupId);
 }
