@@ -18,8 +18,8 @@ import java.util.List;
 public class GuestBookController {
     private final GuestBookService guestBookService;
 
-    @PostMapping
     @Operation(summary = "방명록 작성 API", description = "방명록을 작성하는 API입니다.")
+    @PostMapping("/guests")
     public ResponseEntity<GuestBookResponse> writeGuestBook(
             @RequestBody AddGuestBookRequest request,
             @AuthenticationPrincipal CustomUserDetails userDetails
@@ -30,8 +30,8 @@ public class GuestBookController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{memberId}/guests")
     @Operation(summary = "방명록 조회 API", description = "특정 사용자의 방명록 목록을 조회하는 API입니다.")
+    @GetMapping("/{memberId}/guests")
     public ResponseEntity<List<GuestBookResponse>> getGuestBooks(
             @PathVariable Long memberId) {
         List<GuestBookResponse> guestBooks = guestBookService.getGuestBooks(memberId);
