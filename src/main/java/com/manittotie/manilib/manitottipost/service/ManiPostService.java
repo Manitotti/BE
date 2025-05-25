@@ -124,6 +124,43 @@ public class ManiPostService {
                 commentResponses);
     }
 
+    // 게시글 수정 서비스 (작성자만 수정 가능)
+    public UpdateManiPostResponse updatePost(Long groupId, Long postId, UpdateManiPostRequest request, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        ManitottiPost post = manipostRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+
+        if (!post.getGroups().getId().equals(groupId)) {
+            throw new AccessDeniedException("해당 그룹에 존재하지 않는 게시글입니다.");
+        }
+
+        // 작성자만 수정 가능
+        if (!post.getMember().getId().equals(member.getId())) {
+            throw new AccessDeniedException("게시글 수정 권한이 없습니다.");
+        }
+
+        // 게시글 수정
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+        post.setUpdatedAt(LocalDateTime.now());
+
+        ManitottiPost updatedPost = manipostRepository.save(post);
+
+        return new UpdateManiPostResponse(
+                updatedPost.getId(),
+                group.getId(),
+                updatedPost.getTitle(),
+                updatedPost.getContent(),
+                updatedPost.getCreatedAt(),
+                updatedPost.getUpdatedAt()
+        );
+    }
+
     // 게시글 삭제 서비스 (관리자는 강제 삭제 가능)
     public void deletePost(Long groupId, Long postId, String email) {
         Member member = memberRepository.findByEmail(email)
