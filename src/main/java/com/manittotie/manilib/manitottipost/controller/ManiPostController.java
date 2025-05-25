@@ -1,10 +1,7 @@
 package com.manittotie.manilib.manitottipost.controller;
 
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
-import com.manittotie.manilib.manitottipost.dto.AddManiPostRequest;
-import com.manittotie.manilib.manitottipost.dto.AddManiPostResponse;
-import com.manittotie.manilib.manitottipost.dto.GetManiPostDetailResponse;
-import com.manittotie.manilib.manitottipost.dto.GetManiPostResponse;
+import com.manittotie.manilib.manitottipost.dto.*;
 import com.manittotie.manilib.manitottipost.service.ManiPostService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +45,18 @@ public class ManiPostController {
             @AuthenticationPrincipal CustomUserDetails memberDetails) {
         String email = memberDetails.getEmail();
         GetManiPostDetailResponse response = maniPostService.getPostDetail(groupId, postId, email);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "특정 게시글 수정", description = "오직 작성자만이 해당 게시글을 수정할 수 있는 API입니다.")
+    @PutMapping("/{groupId}/maniposts/{postId}")
+    public ResponseEntity<UpdateManiPostResponse> updatePost(
+            @PathVariable Long groupId,
+            @PathVariable Long postId,
+            @RequestBody UpdateManiPostRequest request,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+        UpdateManiPostResponse response = maniPostService.updatePost(groupId, postId, request, email);
         return ResponseEntity.ok(response);
     }
 
