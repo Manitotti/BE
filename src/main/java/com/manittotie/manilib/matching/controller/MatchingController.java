@@ -2,6 +2,7 @@ package com.manittotie.manilib.matching.controller;
 
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
 import com.manittotie.manilib.matching.dto.MatchingResultDto;
+import com.manittotie.manilib.matching.dto.MatchingStatusResponse;
 import com.manittotie.manilib.matching.service.MatchingService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class MatchingController {
 
     @Operation(summary = "마니또 매칭 API", description = "마니또, 마니띠가 1대1 관계로 매칭되는 API입니다.")
     @PostMapping("/{groupId}/matching/start")
-    public List<MatchingResultDto> startMatching(
+    public MatchingStatusResponse startMatching(
             @PathVariable Long groupId,
             @AuthenticationPrincipal CustomUserDetails memberDetails) {
        return matchingService.startMatching(groupId, memberDetails.getMember());
