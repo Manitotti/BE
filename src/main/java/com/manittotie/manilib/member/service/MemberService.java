@@ -2,14 +2,8 @@ package com.manittotie.manilib.member.service;
 
 import com.manittotie.manilib.matching.repository.MatchingSessionRepository;
 import com.manittotie.manilib.member.domain.Member;
-import com.manittotie.manilib.member.dto.DuplicateEmailRequest;
-import com.manittotie.manilib.member.dto.DuplicateEmailResponse;
-import com.manittotie.manilib.member.dto.GroupMemberWithMatchResponse;
-import com.manittotie.manilib.member.dto.MemberDto;
-import com.manittotie.manilib.member.dto.MessageRequest;
+import com.manittotie.manilib.member.dto.*;
 import com.manittotie.manilib.member.repository.MemberRepository;
-import com.manittotie.manilib.member.dto.MessageResponse;
-import com.manittotie.manilib.member.dto.MyPageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -77,4 +71,29 @@ public class MemberService {
         return response;
     }
 
+    // 상태메세지 수정
+    public MessageResponse UpdateMyMessage(MessageRequest request, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다"));
+
+
+
+        member.setMyMessage(request.getMessage());
+        return new MessageResponse(member.getId(), member.getMyMessage());
+    }
+
+    @Transactional
+    public NickNameResponse UpdateNickname(NickNameRequest request, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다"));
+
+        member.setNickname(request.getNickname());
+
+        NickNameResponse response = new NickNameResponse();
+
+        response.setMemberId(member.getId());
+        response.setNickname(member.getNickname());
+
+        return response;
+    }
 }

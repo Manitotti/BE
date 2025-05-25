@@ -1,14 +1,8 @@
 package com.manittotie.manilib.member.controller;
 
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
-import com.manittotie.manilib.member.dto.DuplicateEmailRequest;
-import com.manittotie.manilib.member.dto.DuplicateEmailResponse;
-import com.manittotie.manilib.member.dto.MemberDto;
-import com.manittotie.manilib.member.dto.MessageRequest;
-import com.manittotie.manilib.member.dto.GroupMemberWithMatchResponse;
+import com.manittotie.manilib.member.dto.*;
 import com.manittotie.manilib.member.service.MemberService;
-import com.manittotie.manilib.member.dto.MessageResponse;
-import com.manittotie.manilib.member.dto.MyPageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,5 +53,18 @@ public class MemberController {
         MessageResponse response = memberService.WriteMyMessage(request, email);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "닉네임 수정", description = "닉네임을 수정합니다.")
+    @PutMapping("/mypage/nickname")
+    public ResponseEntity<?> UpdateNickname(
+            @RequestBody NickNameRequest request,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+
+        NickNameResponse response = memberService.UpdateNickname(request, email);
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }
