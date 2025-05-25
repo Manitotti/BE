@@ -1,14 +1,8 @@
 package com.manittotie.manilib.member.controller;
 
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
-import com.manittotie.manilib.member.dto.DuplicateEmailRequest;
-import com.manittotie.manilib.member.dto.DuplicateEmailResponse;
-import com.manittotie.manilib.member.dto.MemberDto;
-import com.manittotie.manilib.member.dto.MessageRequest;
-import com.manittotie.manilib.member.dto.GroupMemberWithMatchResponse;
+import com.manittotie.manilib.member.dto.*;
 import com.manittotie.manilib.member.service.MemberService;
-import com.manittotie.manilib.member.dto.MessageResponse;
-import com.manittotie.manilib.member.dto.MyPageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,5 +53,18 @@ public class MemberController {
         MessageResponse response = memberService.WriteMyMessage(request, email);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "프로필 조회", description = "회원 프로필을 조회합니다.")
+    @GetMapping("/profile/{memberId}")
+    public ResponseEntity<ProfileResponse> getProfile(
+            @PathVariable Long memberId,
+            @AuthenticationPrincipal CustomUserDetails userDetails // 혹은 UserDetails
+    ) {
+        String email = userDetails.getUsername(); // 보통 username이 이메일인 경우가 많음
+        ProfileResponse profile = memberService.getProfile(memberId, email);
+        return ResponseEntity.ok(profile);
+    }
+
+
 
 }

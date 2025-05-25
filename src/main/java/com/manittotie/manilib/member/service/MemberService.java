@@ -1,15 +1,10 @@
 package com.manittotie.manilib.member.service;
 
+import com.manittotie.manilib.guestbook.dto.GuestBookResponse;
 import com.manittotie.manilib.matching.repository.MatchingSessionRepository;
 import com.manittotie.manilib.member.domain.Member;
-import com.manittotie.manilib.member.dto.DuplicateEmailRequest;
-import com.manittotie.manilib.member.dto.DuplicateEmailResponse;
-import com.manittotie.manilib.member.dto.GroupMemberWithMatchResponse;
-import com.manittotie.manilib.member.dto.MemberDto;
-import com.manittotie.manilib.member.dto.MessageRequest;
+import com.manittotie.manilib.member.dto.*;
 import com.manittotie.manilib.member.repository.MemberRepository;
-import com.manittotie.manilib.member.dto.MessageResponse;
-import com.manittotie.manilib.member.dto.MyPageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -76,5 +71,31 @@ public class MemberService {
 
         return response;
     }
+
+    @Transactional(readOnly = true)
+    public ProfileResponse getProfile(Long profileOwnerId, String viewerEmail) {
+        Member profileOwner = memberRepository.findById(profileOwnerId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 멤버가 존재하지 않습니다."));
+
+        Member viewer = memberRepository.findByEmail(viewerEmail)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        boolean isMine = profileOwner.getId().equals(viewer.getId());
+
+        List<GuestBookResponse> guestBooks = profileOwner.getGuestBooks().stream()
+                .map(guestBook -> new GuestBookResponse(guestBook.getContent(), guestBook.getCreatedAt()))
+                .collect(Collectors.toList());
+
+        return ProfileResponse.builder()
+                .nickname(profileOwner.getNickname())
+                .myMessage(profileOwner.getMyMessage())
+                .isMine(isMine)
+                .guestBooks(guestBooks)
+                .build();
+    }
+
+
+
+
 
 }
