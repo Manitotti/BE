@@ -29,7 +29,7 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 
         long count = commentRepository.countByPost_Id(post.getId());
-        String nickname = "익명" + (count + 1);
+        String nickname = "익명";
 
         ManitottiComment comment = ManitottiComment.builder()
                 .unknownNickname(nickname)
