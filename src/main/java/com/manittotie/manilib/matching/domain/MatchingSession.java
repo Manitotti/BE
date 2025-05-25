@@ -25,6 +25,7 @@ public class MatchingSession {
     @JoinColumn(name = "group_id", nullable = false)
     private Groups groups;
 
+    @Column
     private LocalDateTime createdAt;
 
     private Long seed;

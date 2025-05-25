@@ -5,6 +5,7 @@ import com.manittotie.manilib.member.dto.DuplicateEmailRequest;
 import com.manittotie.manilib.member.dto.DuplicateEmailResponse;
 import com.manittotie.manilib.member.dto.MemberDto;
 import com.manittotie.manilib.member.dto.MessageRequest;
+import com.manittotie.manilib.member.dto.GroupMemberWithMatchResponse;
 import com.manittotie.manilib.member.service.MemberService;
 import com.manittotie.manilib.member.dto.MessageResponse;
 import com.manittotie.manilib.member.dto.MyPageResponse;
@@ -15,8 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -36,10 +35,10 @@ public class MemberController {
 
     @Operation(summary = "그룹 내 전체 멤버 조회 API", description = "본인이 가입한 그룹에 한해 멤버를 전체 조회할 수 있는 API입니다.")
     @GetMapping("/{groupId}/members")
-    public ResponseEntity<List<MemberDto>> getGroupMembers(
+    public ResponseEntity<GroupMemberWithMatchResponse> getGroupMembers(
             @PathVariable Long groupId) {
-        List<MemberDto> members = memberService.getMemberByGroup(groupId);
-        return ResponseEntity.ok(members);
+        GroupMemberWithMatchResponse response = memberService.getMemberByGroup(groupId);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "마이페이지 조회", description = "마이페이지를 조회합니다.")

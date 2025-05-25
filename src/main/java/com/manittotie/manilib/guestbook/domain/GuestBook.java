@@ -24,10 +24,12 @@ public class GuestBook {
     private Member member;
 
     private String content;
+
     private LocalDateTime createdAt;
 
     @Builder
-    public GuestBook(String content, LocalDateTime createdAt) {
+    public GuestBook(Member member, String content, LocalDateTime createdAt) {
+        this.member = member;
         this.content = content;
         this.createdAt = createdAt;
     }
