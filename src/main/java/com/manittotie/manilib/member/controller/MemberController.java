@@ -54,6 +54,18 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "닉네임 수정", description = "닉네임을 수정합니다.")
+    @PutMapping("/mypage/nickname")
+    public ResponseEntity<?> UpdateNickname(
+            @RequestBody NickNameRequest request,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+
+        NickNameResponse response = memberService.UpdateNickname(request, email);
+
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "프로필 조회", description = "회원 프로필을 조회합니다.")
     @GetMapping("/profile/{memberId}")
     public ResponseEntity<ProfileResponse> getProfile(
@@ -64,7 +76,6 @@ public class MemberController {
         ProfileResponse profile = memberService.getProfile(memberId, email);
         return ResponseEntity.ok(profile);
     }
-
 
 
 }

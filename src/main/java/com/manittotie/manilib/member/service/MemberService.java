@@ -72,7 +72,33 @@ public class MemberService {
         return response;
     }
 
-    @Transactional(readOnly = true)
+    // 상태메세지 수정
+    public MessageResponse UpdateMyMessage(MessageRequest request, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다"));
+
+
+
+        member.setMyMessage(request.getMessage());
+        return new MessageResponse(member.getId(), member.getMyMessage());
+    }
+
+    // 닉네임 업데이트 서비스
+    public NickNameResponse UpdateNickname(NickNameRequest request, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다"));
+
+        member.setNickname(request.getNickname());
+
+        NickNameResponse response = new NickNameResponse();
+
+        response.setMemberId(member.getId());
+        response.setNickname(member.getNickname());
+
+        return response;
+    }
+
+    // 사용자들 프로필 조회 서비스
     public ProfileResponse getProfile(Long profileOwnerId, String viewerEmail) {
         Member profileOwner = memberRepository.findById(profileOwnerId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 멤버가 존재하지 않습니다."));
@@ -93,9 +119,5 @@ public class MemberService {
                 .guestBooks(guestBooks)
                 .build();
     }
-
-
-
-
 
 }
