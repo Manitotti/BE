@@ -20,16 +20,21 @@ public class GuestBook {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Member owner;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_id", nullable = false)
+    private Member writer;
 
     private String content;
 
     private LocalDateTime createdAt;
 
     @Builder
-    public GuestBook(Member member, String content, LocalDateTime createdAt) {
-        this.member = member;
+    public GuestBook(Member owner, Member writer, String content, LocalDateTime createdAt) {
+        this.owner = owner;
+        this.writer = writer;
         this.content = content;
         this.createdAt = createdAt;
     }
