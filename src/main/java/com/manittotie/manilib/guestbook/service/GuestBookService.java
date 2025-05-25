@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -41,5 +43,19 @@ public class GuestBookService {
                 guestBook.getContent(),
                 guestBook.getCreatedAt()
         );
+    }
+
+    // 방명록 조회
+    @Transactional(readOnly = true)
+    public List<GuestBookResponse> getGuestBooks(Long ownerId) {
+        Member owner = memberRepository.findById(ownerId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        return guestBookRepository
+                .findAllByMemberOrderByCreatedAt(owner)
+                .stream()
+                .map(gb -> new GuestBookResponse(gb.getContent(), gb.getCreatedAt()))
+                .collect(Collectors.toList());
+
     }
 }
