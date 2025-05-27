@@ -1,18 +1,36 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  app:
+  manitotti-web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: manitotti-app
+    container_name: manitotti-web
     ports:
       - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://43.200.175.106:3306/manitotti
-      SPRING_DATASOURCE_USERNAME: wldh25
-      SPRING_DATASOURCE_PASSWORD: mini2team
-    volumes:
-      - ./application.yaml:/app/application.yaml
-    command: ["java", "-jar", "app.jar", "--spring.config.location=classpath:/application.yaml,/app/application.yaml"]
+    depends_on:
+      manitotti-mysql:
+        condition: service_healthy
     restart: unless-stopped
+
+  manitotti-mysql:
+    image: mysql:8.0
+    container_name: manitotti-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpw
+      MYSQL_DATABASE: manitotti
+      MYSQL_USER: wldh25
+      MYSQL_PASSWORD: mini2team
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "wldh25", "-pmini2team"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
