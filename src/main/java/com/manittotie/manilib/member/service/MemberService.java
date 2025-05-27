@@ -72,6 +72,18 @@ public class MemberService {
         return response;
     }
 
+    // 상태메세지 수정
+    public MessageResponse UpdateMyMessage(MessageRequest request, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다"));
+
+        member.setMyMessage(request.getMessage());
+        MessageResponse response = new MessageResponse();
+        response.setMessage(member.getMyMessage());
+        return response;
+    }
+
+
     // 닉네임 업데이트 서비스
     public NickNameResponse UpdateNickname(NickNameRequest request, String email) {
         Member member = memberRepository.findByEmail(email)
