@@ -1,14 +1,10 @@
-# Use an official OpenJDK runtime as a parent image
+# Dockerfile
 FROM --platform=linux/amd64 openjdk:17-jdk-slim
-
-# Set the working directory
 WORKDIR /app
 
-# Copy the Spring Boot jar file into the container
-COPY manilib-0.0.1-SNAPSHOT.jar .
+# JAR 파일만 복사
+COPY build/libs/manilib-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose the port the app runs on
 EXPOSE 8080
 
-# Run the jar file
-ENTRYPOINT ["java", "-jar", "manilib-0.0.1-SNAPSHOT.jar", "--spring.config.location=file:/app/application.yaml"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
