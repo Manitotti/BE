@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: manitotti-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://43.200.175.106:3306/manitotti
+      SPRING_DATASOURCE_USERNAME: wldh25
+      SPRING_DATASOURCE_PASSWORD: mini2team
+    volumes:
+      - ./application.yaml:/app/application.yaml
+    command: ["java", "-jar", "app.jar", "--spring.config.location=classpath:/application.yaml,/app/application.yaml"]
+    restart: unless-stopped
