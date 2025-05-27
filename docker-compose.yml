@@ -9,8 +9,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      manitotti-mysql:
-        condition: service_healthy
+      - manitotti-mysql
     restart: unless-stopped
 
   manitotti-mysql:
@@ -26,11 +25,17 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "wldh25", "-pmini2team"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u wldh25 -pmini2team"]
       interval: 10s
       timeout: 5s
       retries: 10
-    restart: unless-stopped
+    networks:
+      - manitotti-net
+    restart: always
 
 volumes:
   mysql-data:
+
+networks:
+  manitotti-net:
+    driver: bridge
