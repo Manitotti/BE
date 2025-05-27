@@ -54,6 +54,18 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "상태메세지 수정", description = "상태메세지를 수정합니다.")
+    @PutMapping("/mypage/message")
+    public ResponseEntity<?> UpdateMyMessage(
+            @RequestBody MessageRequest request,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        Long memberId = memberDetails.getId();
+
+        MessageResponse response = memberService.UpdateMyMessage(request, memberId);
+
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "닉네임 수정", description = "닉네임을 수정합니다.")
     @PutMapping("/mypage/nickname")
     public ResponseEntity<?> UpdateNickname(
@@ -65,6 +77,7 @@ public class MemberController {
 
         return ResponseEntity.ok(response);
     }
+
 
     @Operation(summary = "프로필 조회", description = "회원 프로필을 조회합니다.")
     @GetMapping("/profile/{memberId}")
