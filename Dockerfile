@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy the Spring Boot jar file into the container
 COPY manilib-0.0.1-SNAPSHOT.jar .
+COPY ./src/main/resources/application.yaml /app/application.yaml
 
 # Expose the port the app runs on
 EXPOSE 8080
