@@ -2,7 +2,7 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [develop]  # 또는 develop 브랜치라면 수정
+    branches: [develop]
 
 jobs:
   deploy:
@@ -11,6 +11,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Setup SSH
         run: |
@@ -21,9 +33,9 @@ jobs:
 
       - name: Deploy to EC2
         run: |
+          scp -i ~/.ssh/id_rsa -r . ubuntu@${{ secrets.EC2_HOST }}:~/deploy
           ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
             cd ~/deploy
-            git pull origin main
             docker-compose down
             docker-compose up -d --build
           EOF
