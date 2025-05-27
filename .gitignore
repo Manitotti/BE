@@ -37,7 +37,7 @@ out/
 .vscode/
 
 ### properties ###
-#**/application.yaml
+**/application.yaml
 
 ### key ###
 manitotti-test-ver1.pem
