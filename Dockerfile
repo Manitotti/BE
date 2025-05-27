@@ -12,4 +12,4 @@ COPY ./src/main/resources/application.yaml /app/application.yaml
 EXPOSE 8080
 
 # Run the jar file
-ENTRYPOINT ["java", "-jar", "manilib-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "manilib-0.0.1-SNAPSHOT.jar", "--spring.config.location=file:/app/application.yaml"]
