@@ -49,12 +49,3 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// build.gradle 하단에 추가
-sourceSets {
-	main {
-		resources {
-			srcDirs = ['src/main/resources']
-			includes = ['**/*.properties', '**/*.yml', '**/*.yaml']
-		}
-	}
-}

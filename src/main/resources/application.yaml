@@ -3,7 +3,7 @@ spring:
     name: Manitotti
 
   datasource:
-    url: jdbc:mysql://manitotti-mysql:3306/manitotti
+    url: jdbc:mysql://43.200.175.106d:3306/manitotti
     username: wldh25
     password: mini2team
     driver-class-name: com.mysql.cj.jdbc.Driver
