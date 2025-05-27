@@ -33,7 +33,10 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          scp -i ~/.ssh/id_rsa -r . ubuntu@${{ secrets.EC2_HOST }}:~/deploy
+          ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            mkdir -p ~/deploy
+          EOF
+          scp -i ~/.ssh/id_rsa -r .deploy/* ubuntu@${{ secrets.EC2_HOST }}:~/deploy
           ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
             cd ~/deploy
             docker-compose down
