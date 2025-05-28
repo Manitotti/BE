@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,10 +49,11 @@ public class Member {
     // ▶ 방명록 - 방명록 주인
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("createdAt ASC")
-    private Set<GuestBook> ownerGuestBooks;
+    private List<GuestBook> ownerGuestBooks = new ArrayList<>();
 
     // ▶ 방명록 - 방명록 작성자
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdAt ASC")
     private Set<GuestBook> writerGuestBooks;
 
     // ▶ Matching 결과: giver 역할
