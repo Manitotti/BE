@@ -46,6 +46,7 @@ public class Member {
 
     // ▶ 방명록 - 방명록 주인
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdAt ASC")
     private Set<GuestBook> ownerGuestBooks;
 
     // ▶ 방명록 - 방명록 작성자
