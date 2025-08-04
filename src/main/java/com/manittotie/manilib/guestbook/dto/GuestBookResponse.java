@@ -1,5 +1,6 @@
 package com.manittotie.manilib.guestbook.dto;
 
+import jakarta.persistence.OrderBy;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +10,9 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @AllArgsConstructor
 public class GuestBookResponse {
+    @OrderBy("createdAt ASC")
     private String content;
+
     private String createdAt;
 
     public GuestBookResponse(String content, LocalDateTime createdAt) {

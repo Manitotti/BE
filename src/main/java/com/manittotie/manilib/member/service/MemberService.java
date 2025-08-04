@@ -1,6 +1,7 @@
 package com.manittotie.manilib.member.service;
 
 import com.manittotie.manilib.guestbook.dto.GuestBookResponse;
+import com.manittotie.manilib.guestbook.repository.GuestBookRepository;
 import com.manittotie.manilib.matching.repository.MatchingSessionRepository;
 import com.manittotie.manilib.member.domain.Member;
 import com.manittotie.manilib.member.dto.*;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MatchingSessionRepository matchingSessionRepository;
+    private final GuestBookRepository guestBookRepository;
 
     // 이메일 중복 확인 서비스
     public DuplicateEmailResponse hasEmail(DuplicateEmailRequest request) {
