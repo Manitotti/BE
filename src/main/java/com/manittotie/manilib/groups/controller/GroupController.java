@@ -1,6 +1,7 @@
 package com.manittotie.manilib.groups.controller;
 
 import com.manittotie.manilib.auth.dto.CustomUserDetails;
+import com.manittotie.manilib.groups.domain.GroupJoin;
 import com.manittotie.manilib.groups.dto.CreateGroupRequest;
 import com.manittotie.manilib.groups.dto.CreateGroupResponse;
 import com.manittotie.manilib.groups.dto.MessageResponse;
@@ -34,14 +35,34 @@ public class GroupController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "그룹 가입 API", description = "특정 그룹에 가입하는 API입니다.")
-    @PostMapping("/groups/{groupId}/join")
-    public ResponseEntity<String> joinGroup(
+    @Operation(summary = "그룹 가입 신청 API", description = "특정 그룹에 가입을 신청하는 API입니다.")
+    @PostMapping("/groups/{groupId}/request")
+    public ResponseEntity<String> requestGroup(
             @PathVariable Long groupId,
             @AuthenticationPrincipal CustomUserDetails memberDetails) {
         String email = memberDetails.getEmail();
-        groupService.joinGroup(groupId, email);
+        groupService.requestGroup(groupId, email);
+        return ResponseEntity.ok("그룹에 가입을 신청했습니다.");
+    }
+
+    @Operation(summary = "그룹 가입 승인 API", description = "그룹 관리자가 가입을 승인하는 API입니다.")
+    @PostMapping("/groups/{groupId}/approve")
+    public ResponseEntity<String> approveGroup(
+            @PathVariable Long groupId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+        groupService.approveGroup(groupId, email);
         return ResponseEntity.ok("그룹에 가입되었습니다.");
+    }
+
+    @Operation(summary = "그룹 가입 거절 API", description = "그룹 관리자가 가입을 거절하는 API입니다.")
+    @PostMapping("/groups/{groupId}/reject")
+    public ResponseEntity<String> rejectGroup(
+            @PathVariable Long groupId,
+            @AuthenticationPrincipal CustomUserDetails memberDetails) {
+        String email = memberDetails.getEmail();
+        groupService.rejectGroup(groupId, email);
+        return ResponseEntity.ok("가입 거절되었습니다.");
     }
 
     // 내 그룹 조회

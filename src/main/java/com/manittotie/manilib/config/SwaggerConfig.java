@@ -22,7 +22,7 @@ public class SwaggerConfig {
                 .description("마니또 매칭 서비스");
 
         Server server = new Server();
-        server.setUrl("https://mini2team.lion.it.kr");
+        server.setUrl("https://manitotti.site");
 
         Server server1 = new Server();
         server1.setUrl("http://localhost:8080");
