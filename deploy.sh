@@ -6,7 +6,7 @@ LOCAL_JAR_PATH="build/libs/$JAR_NAME"
 REMOTE_DIR="/home/ubuntu"
 DOCKER_IMAGE_NAME="manitotti-app"
 DOCKER_CONTAINER_NAME="manitotti-web"
-EC2_USER_HOST="ubuntu@3.34.194.90"
+EC2_USER_HOST="ubuntu@15.164.102.212"
 EC2_KEY_PATH="./manitotti-test-ver1.pem"
 # =======================================
 

@@ -1,0 +1,148 @@
+[33mbc7ab7e[m[33m ([m[1;36mHEAD[m[33m)[m HEAD@{0}: pull --rebase origin main (pick): Update issue templates
+[33mea9e4ea[m HEAD@{1}: pull --rebase origin main (pick): Fix : 게시글 삭제 관련 getId() 보완
+[33mab09b0c[m HEAD@{2}: pull --rebase origin main (pick): Feat: 특정 게시글 삭제 API 생성(관리자 권한 여부도 포함)
+[33m178a022[m HEAD@{3}: pull --rebase origin main (pick): Refactor: move mypage into member
+[33mcea287d[m HEAD@{4}: pull --rebase origin main (pick): Feat: Add WriteMyPage
+[33ma1c5e89[m HEAD@{5}: pull --rebase origin main (pick): Feat: Delete Comment by Admin
+[33m2f37e8c[m HEAD@{6}: pull --rebase origin main (pick): Github issue #23
+[33m8af86f8[m HEAD@{7}: pull --rebase origin main (pick): Refactor: Update Mypage
+[33m7dc95c6[m HEAD@{8}: pull --rebase origin main (pick): Refactor: Update Comment
+[33mbb4393e[m HEAD@{9}: pull --rebase origin main (pick): Feat: Add MyPage
+[33m37d7638[m HEAD@{10}: pull --rebase origin main (pick): Feat : 게시글 상세 조회 API 생성, Refactor : 댓글 수정 API 권한 오류
+[33madab6fb[m HEAD@{11}: pull --rebase origin main (pick): Feat: Feat Add Update Comment
+[33md0ac9c8[m HEAD@{12}: pull --rebase origin main (pick): Feat : 그룹 내 전체 게시글 조회 API 생성
+[33m97399f4[m HEAD@{13}: pull --rebase origin main (pick): Refactor : 게시글 작성 API - 익명 처리로 변경
+[33m13d12b3[m HEAD@{14}: pull --rebase origin main (pick): Refactor : 배포 도메인 주소 수정
+[33m61dee28[m HEAD@{15}: pull --rebase origin main (pick): Feat: Add Update Comment
+[33m165510b[m HEAD@{16}: pull --rebase origin main (pick): Feat: 그룹 내에 멤버 전체 조회 API
+[33m7c8cc0d[m HEAD@{17}: pull --rebase origin main (pick): Feat : 멤버 추방 API 생성
+[33m15cc651[m HEAD@{18}: pull --rebase origin main (pick): Feat: Add Delete Comment
+[33me826045[m HEAD@{19}: pull --rebase origin main (pick): Feat: Add Comment Writing
+[33mcac0714[m HEAD@{20}: pull --rebase origin main (pick): Feat : 그룹 삭제 API 생성
+[33me0ea87a[m HEAD@{21}: pull --rebase origin main (pick): Feat : 마니또 매칭 결과 조회 API 생성
+[33maaa2d88[m HEAD@{22}: pull --rebase origin main (pick): Feat : 마니또 매칭 결과 공개 API 생성
+[33m1737b86[m HEAD@{23}: pull --rebase origin main (pick): Feat : 마니또 매칭 API 생성
+[33m8d96177[m HEAD@{24}: pull --rebase origin main (pick): BugFix : Swagger에 파라미터가 제대로 들어가지 않던 오류 수정
+[33m5e09199[m HEAD@{25}: pull --rebase origin main (pick): Feat: Add Group
+[33me935b5c[m HEAD@{26}: pull --rebase origin main (pick): Feat : 특정 그룹 가입 API 생성 & Fix : 관리자 인식 오류 수정
+[33m5ff19b2[m HEAD@{27}: pull --rebase origin main (pick): Feat : 그룹 생성 API 생성
+[33mcfa3e0d[m HEAD@{28}: pull --rebase origin main (pick): Feat : 게시글 작성 API
+[33mc1feeca[m HEAD@{29}: pull --rebase origin main (pick): Fix : SecurityConfig 권한 수정, AuthController, LoginFilter, JwtFilter
+[33m361fc39[m HEAD@{30}: pull --rebase origin main (pick): Remove : MemberService에 createMember 중복 함수 삭제
+[33m9021265[m HEAD@{31}: pull --rebase origin main (pick): [ADD] ManipostRepository
+[33m38612b8[m HEAD@{32}: pull --rebase origin main (pick): Chore : 마니또띠 게시판, 게스트북 repository 추가
+[33mec237fd[m HEAD@{33}: pull --rebase origin main (pick): Feat : 이메일 중복 확인 API 생성
+[33m1c53807[m HEAD@{34}: pull --rebase origin main (pick): Feat : 회원가입 API 생성
+[33md93c953[m HEAD@{35}: pull --rebase origin main (pick): Feat : 로그인 API 추가
+[33ma885560[m HEAD@{36}: pull --rebase origin main (pick): feat : domain 전부 생성 완료, 배포 준비 완료
+[33m794aa76[m HEAD@{37}: pull --rebase origin main (pick): FEAT: Member 도메인 추가, Group 도메인 & MemberGroup 도메인 초안만 완성
+[33mc071032[m HEAD@{38}: pull --rebase origin main (pick): Update issue templates
+[33me4ce5b4[m HEAD@{39}: pull --rebase origin main (pick): 초기 설정
+[33m6a831e8[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/develop[m[33m)[m HEAD@{40}: pull --rebase origin main (start): checkout 6a831e880270de5aafaf078ec05298a579902943
+[33mc4b0840[m[33m ([m[1;32mdevelop[m[33m)[m HEAD@{41}: commit: rebase 전 백업
+[33m9a885e2[m HEAD@{42}: commit: 방명록 재수정
+[33ma53f81d[m HEAD@{43}: commit: 방명록 수정
+[33m86299f1[m HEAD@{44}: pull origin develop: Fast-forward
+[33m69853ad[m HEAD@{45}: pull origin develop: Merge made by the 'ort' strategy.
+[33maa887e0[m HEAD@{46}: commit: .gitignore
+[33m5966785[m HEAD@{47}: commit: 추가
+[33m4545cdd[m HEAD@{48}: commit: docker-compose.yml 재수정
+[33m40bf745[m HEAD@{49}: commit: application.yaml 수정
+[33m7e1e38e[m HEAD@{50}: commit (merge): 파일 재수정
+[33m3c455ae[m HEAD@{51}: commit: 업데이트
+[33mb68ede5[m HEAD@{52}: commit: Dockerfile 재수정
+[33m23af6df[m HEAD@{53}: commit: docker-compose.yml 재수정
+[33m5b93df9[m HEAD@{54}: commit: Fix: include application.yaml in jar
+[33md0e39bd[m HEAD@{55}: commit: 파일 재업로드
+[33m7e873a7[m HEAD@{56}: commit: 배포 관련 자료 추가
+[33mf9bd3b0[m HEAD@{57}: commit: deploy.yml 파일 수정
+[33me374b2c[m HEAD@{58}: commit: fix: force Spring Boot to use external application.yaml
+[33m550b503[m HEAD@{59}: commit: Dockerfile 수정
+[33mb7de909[m HEAD@{60}: commit: fix: include DB config for deploy
+[33m7742884[m HEAD@{61}: commit: fix: include DB config for deploy
+[33mca95287[m HEAD@{62}: commit: Add Github Actions deploy workflow
+[33m98d27f9[m HEAD@{63}: commit: Add Github Actions deploy workflow
+[33m8249382[m HEAD@{64}: commit: Fix : 매핑 주소 변경
+[33mb955442[m HEAD@{65}: commit: Fix : 메시지 아이디 삭제, 도메인 이름 변경에 의한 프로필 조회 서비스 수정
+[33m5a89b83[m HEAD@{66}: pull origin develop: Fast-forward
+[33maf8c31a[m HEAD@{67}: checkout: moving from feature/backup to develop
+[33m232bf7a[m[33m ([m[1;32mfeature/backup[m[33m)[m HEAD@{68}: commit: Fix : 방명록 API 전체 수정
+[33mdc5215a[m HEAD@{69}: checkout: moving from feature/write_guestbook to feature/backup
+[33m5d7f2a9[m[33m ([m[1;32mfeature/write_guestbook[m[33m)[m HEAD@{70}: commit: Refactor : 댓글 익명 이름 변경
+[33m80443b8[m HEAD@{71}: commit: Feat : 방명록 작성 API 생성
+[33m136f168[m HEAD@{72}: pull origin develop: Fast-forward
+[33mb139e83[m HEAD@{73}: checkout: moving from develop to feature/write_guestbook
+[33maf8c31a[m HEAD@{74}: checkout: moving from main to develop
+[33m0d820bb[m[33m ([m[1;32mmain[m[33m)[m HEAD@{75}: pull origin develop: Fast-forward
+[33mc5a6f8b[m HEAD@{76}: checkout: moving from feature/matching_fix to main
+[33md66136b[m[33m ([m[1;32mfeature/matching_fix[m[33m)[m HEAD@{77}: commit: Fix : 매칭 API, 매칭 공개 API, 전체 멤버 조회 API 수정
+[33maf8c31a[m HEAD@{78}: checkout: moving from develop to feature/matching_fix
+[33maf8c31a[m HEAD@{79}: reset: moving to HEAD
+[33maf8c31a[m HEAD@{80}: pull origin develop: Fast-forward
+[33m9a76908[m HEAD@{81}: reset: moving to HEAD
+[33m9a76908[m HEAD@{82}: checkout: moving from feature/delete_post to develop
+[33m540caa3[m[33m ([m[1;32mfeature/delete_post[m[33m)[m HEAD@{83}: commit: Fix : 게시글 삭제 관련 getId() 보완
+[33mef9e34c[m HEAD@{84}: commit: Feat: 특정 게시글 삭제 API 생성(관리자 권한 여부도 포함)
+[33m0d50eee[m[33m ([m[1;32mfeature/posts_detail[m[33m, [m[1;32mfeature/delete_pos[m[33m)[m HEAD@{85}: checkout: moving from feature/delete_pos to feature/delete_post
+[33m0d50eee[m[33m ([m[1;32mfeature/posts_detail[m[33m, [m[1;32mfeature/delete_pos[m[33m)[m HEAD@{86}: checkout: moving from feature/posts_detail to feature/delete_pos
+[33m0d50eee[m[33m ([m[1;32mfeature/posts_detail[m[33m, [m[1;32mfeature/delete_pos[m[33m)[m HEAD@{87}: commit: Feat : 게시글 상세 조회 API 생성, Refactor : 댓글 수정 API 권한 오류
+[33md33ff0d[m HEAD@{88}: pull origin develop: Fast-forward
+[33ma3ee953[m[33m ([m[1;32mfeature/get_all_posts[m[33m)[m HEAD@{89}: reset: moving to HEAD
+[33ma3ee953[m[33m ([m[1;32mfeature/get_all_posts[m[33m)[m HEAD@{90}: checkout: moving from feature/get_all_posts to feature/posts_detail
+[33ma3ee953[m[33m ([m[1;32mfeature/get_all_posts[m[33m)[m HEAD@{91}: commit: Feat : 그룹 내 전체 게시글 조회 API 생성
+[33m740c56c[m[33m ([m[1;32mfeature/create_manipost[m[33m)[m HEAD@{92}: checkout: moving from feature/create_manipost to feature/get_all_posts
+[33m740c56c[m[33m ([m[1;32mfeature/create_manipost[m[33m)[m HEAD@{93}: commit: Refactor : 게시글 작성 API - 익명 처리로 변경
+[33m7af31ec[m[33m ([m[1;32mfeature/members_in_group[m[33m)[m HEAD@{94}: checkout: moving from feature/members_in_group to feature/create_manipost
+[33m7af31ec[m[33m ([m[1;32mfeature/members_in_group[m[33m)[m HEAD@{95}: reset: moving to HEAD
+[33m7af31ec[m[33m ([m[1;32mfeature/members_in_group[m[33m)[m HEAD@{96}: commit: Refactor : 배포 도메인 주소 수정
+[33mc404cc1[m HEAD@{97}: pull origin develop: Fast-forward
+[33m8c283e6[m HEAD@{98}: commit: Feat: 그룹 내에 멤버 전체 조회 API
+[33m70f8dac[m[33m ([m[1;32mfeature/kick_member[m[33m)[m HEAD@{99}: checkout: moving from feature/kick_member to feature/members_in_group
+[33m70f8dac[m[33m ([m[1;32mfeature/kick_member[m[33m)[m HEAD@{100}: reset: moving to HEAD
+[33m70f8dac[m[33m ([m[1;32mfeature/kick_member[m[33m)[m HEAD@{101}: commit: Feat : 멤버 추방 API 생성
+[33m47dac83[m HEAD@{102}: pull origin develop: Fast-forward
+[33m9aa2213[m[33m ([m[1;32mfeature/group[m[33m)[m HEAD@{103}: checkout: moving from feature/group to feature/kick_member
+[33m9aa2213[m[33m ([m[1;32mfeature/group[m[33m)[m HEAD@{104}: reset: moving to HEAD
+[33m9aa2213[m[33m ([m[1;32mfeature/group[m[33m)[m HEAD@{105}: commit: Feat : 그룹 삭제 API 생성
+[33m5d817f9[m HEAD@{106}: pull origin develop: Fast-forward
+[33mcc39a41[m HEAD@{107}: reset: moving to HEAD
+[33mcc39a41[m HEAD@{108}: checkout: moving from feature/matching to feature/group
+[33m185353f[m[33m ([m[1;32mfeature/matching[m[33m)[m HEAD@{109}: reset: moving to HEAD
+[33m185353f[m[33m ([m[1;32mfeature/matching[m[33m)[m HEAD@{110}: commit: Feat : 마니또 매칭 결과 조회 API 생성
+[33md4841ad[m HEAD@{111}: commit: Feat : 마니또 매칭 결과 공개 API 생성
+[33m72ad332[m HEAD@{112}: commit: Feat : 마니또 매칭 API 생성
+[33m320108d[m[33m ([m[1;32mfeature/group_fix[m[33m)[m HEAD@{113}: checkout: moving from feature/group_fix to feature/matching
+[33m320108d[m[33m ([m[1;32mfeature/group_fix[m[33m)[m HEAD@{114}: commit: BugFix : Swagger에 파라미터가 제대로 들어가지 않던 오류 수정
+[33m05cb8cf[m HEAD@{115}: checkout: moving from feature/group to feature/group_fix
+[33mcc39a41[m HEAD@{116}: commit: Feat : 특정 그룹 가입 API 생성 & Fix : 관리자 인식 오류 수정
+[33md8c6f08[m HEAD@{117}: commit: Feat : 그룹 생성 API 생성
+[33m0a93af5[m[33m ([m[1;32mfeature/manipost[m[33m)[m HEAD@{118}: checkout: moving from feature/manipost to feature/group
+[33m0a93af5[m[33m ([m[1;32mfeature/manipost[m[33m)[m HEAD@{119}: commit: Feat : 게시글 작성 API
+[33m9a76908[m HEAD@{120}: checkout: moving from develop to feature/manipost
+[33m9a76908[m HEAD@{121}: commit: Fix : SecurityConfig 권한 수정, AuthController, LoginFilter, JwtFilter
+[33m254540d[m HEAD@{122}: commit: Remove : MemberService에 createMember 중복 함수 삭제
+[33mce9b1f8[m HEAD@{123}: pull origin develop: Fast-forward
+[33mc4f0325[m HEAD@{124}: reset: moving to HEAD
+[33mc4f0325[m HEAD@{125}: commit: Chore : 마니또띠 게시판, 게스트북 repository 추가
+[33me83a4be[m HEAD@{126}: pull origin develop: Fast-forward
+[33mf67fb5e[m HEAD@{127}: checkout: moving from feature/duplicate_email to develop
+[33m507c629[m[33m ([m[1;32mfeature/duplicate_email[m[33m)[m HEAD@{128}: commit: Feat : 이메일 중복 확인 API 생성
+[33m8ac4b7a[m[33m ([m[1;32mfeature/signup[m[33m)[m HEAD@{129}: checkout: moving from feature/signup to feature/duplicate_email
+[33m8ac4b7a[m[33m ([m[1;32mfeature/signup[m[33m)[m HEAD@{130}: commit: Feat : 회원가입 API 생성
+[33mf67fb5e[m HEAD@{131}: checkout: moving from develop to feature/signup
+[33mf67fb5e[m HEAD@{132}: pull origin develop: Fast-forward
+[33m02196e2[m HEAD@{133}: checkout: moving from feature/login to develop
+[33m7db24e0[m[33m ([m[1;32mfeature/login[m[33m)[m HEAD@{134}: commit: Feat : 로그인 API 추가
+[33m02196e2[m HEAD@{135}: checkout: moving from develop to feature/login
+[33m02196e2[m HEAD@{136}: merge origin/develop: Fast-forward
+[33md72cd7d[m HEAD@{137}: checkout: moving from JO_01 to develop
+[33m23f0c19[m[33m ([m[1;32mJO_01[m[33m)[m HEAD@{138}: checkout: moving from develop to JO_01
+[33md72cd7d[m HEAD@{139}: checkout: moving from JO_01 to develop
+[33m23f0c19[m[33m ([m[1;32mJO_01[m[33m)[m HEAD@{140}: commit: feat : domain 전부 생성 완료, 배포 준비 완료
+[33md72cd7d[m HEAD@{141}: checkout: moving from develop to JO_01
+[33md72cd7d[m HEAD@{142}: commit: FEAT: Member 도메인 추가, Group 도메인 & MemberGroup 도메인 초안만 완성
+[33ma82be7d[m HEAD@{143}: checkout: moving from main to develop
+[33mc5a6f8b[m HEAD@{144}: checkout: moving from JO_01 to main
+[33mc5a6f8b[m HEAD@{145}: checkout: moving from main to JO_01
+[33mc5a6f8b[m HEAD@{146}: Branch: renamed refs/heads/main to refs/heads/main
+[33mc5a6f8b[m HEAD@{148}: commit (initial): 초기 설정
