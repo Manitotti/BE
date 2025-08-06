@@ -6,6 +6,7 @@ import com.manittotie.manilib.groups.domain.JoinStatus;
 import com.manittotie.manilib.groups.domain.MemberGroups;
 import com.manittotie.manilib.groups.dto.CreateGroupRequest;
 import com.manittotie.manilib.groups.dto.CreateGroupResponse;
+import com.manittotie.manilib.groups.dto.JoinRequestDto;
 import com.manittotie.manilib.groups.dto.MyGroupResponse;
 import com.manittotie.manilib.groups.repository.GroupJoinRepository;
 import com.manittotie.manilib.groups.repository.GroupRepository;
@@ -14,13 +15,13 @@ import com.manittotie.manilib.member.domain.Member;
 import com.manittotie.manilib.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -58,65 +59,6 @@ public class GroupService {
         );
     }
 
-    // 그룹 가입 서비스 --> 대기, 승인, 거절
-    // 대기
-    public void requestGroup(Long groupId, String email) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-
-        Groups group = groupRepository.findById(groupId)
-                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
-
-        boolean alreadyJoined = memberGroupRepository.existsByMemberAndGroups(member, group);
-        if(alreadyJoined) {
-            throw new IllegalStateException("이미 가입 요청을 보냈습니다.");
-        }
-
-
-        // 가입 처리 - 요청
-        GroupJoin request = GroupJoin.create(member,group);
-        groupJoinRepository.save(request);
-    }
-
-    // 그룹 승인 - 관리자가 승인함
-    public void approveGroup(Long groupId, String email) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-
-        Groups group = groupRepository.findById(groupId)
-                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
-
-        GroupJoin request = groupJoinRepository.findByMemberAndGroup(member, group)
-                .orElseThrow(()-> new IllegalArgumentException("가입 요청이 존재하지 않습니다."));
-
-        if (request.getStatus() != JoinStatus.PENDING) {
-            throw new IllegalStateException("이미 처리된 요청입니다.");
-        }
-
-        request.setStatus(JoinStatus.APPROVED);
-        groupJoinRepository.save(request);
-
-        MemberGroups join = MemberGroups.create(member, group);
-    }
-
-    // 그룹 승인 거절
-    public void rejectGroup(Long groupId, String email) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
-
-        Groups group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 그룹이 존재하지 않습니다."));
-
-        GroupJoin joinRequest = groupJoinRepository.findByMemberAndGroup(member, group)
-                .orElseThrow(()->new IllegalArgumentException("가입 요청이 존재하지 않습니다."));
-
-        if (joinRequest.getStatus() != JoinStatus.PENDING) {
-            throw new IllegalStateException("이미 처리된 요청입니다.");
-        }
-
-        joinRequest.setStatus(JoinStatus.REJECTED);
-        groupJoinRepository.save(joinRequest);
-    }
 
     // 내 그룹 조회
     public List<MyGroupResponse> getMyGroups(Long memberId) {
@@ -184,6 +126,81 @@ public class GroupService {
     }
 
         memberGroupRepository.delete(memberGroups);
+    }
+
+    // 그룹 가입 서비스 --> 대기, 승인, 거절
+    // 대기
+    public void requestGroup(Long groupId, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+
+        boolean alreadyJoined = memberGroupRepository.existsByMemberAndGroups(member, group);
+        if(alreadyJoined) {
+            throw new IllegalStateException("이미 가입 요청을 보냈습니다.");
+        }
+
+
+        // 가입 처리 - 요청
+        GroupJoin request = GroupJoin.create(member,group);
+        groupJoinRepository.save(request);
+    }
+
+
+    // 그룹 가입 승인
+    public void approveJoinRequest(Long groupId, Long requestId, Member admin){
+        GroupJoin join = loadAndVerifyPending(groupId, requestId, admin);
+
+        join.setStatus(JoinStatus.APPROVED);
+        groupJoinRepository.save(join);
+
+        MemberGroups memberGroups = MemberGroups.create(join.getMember(), join.getGroup());
+        memberGroupRepository.save(memberGroups);
+    }
+
+    // 그룹 가입 거절
+    public void rejectJoinRequest(Long groupId, Long requestId, Member admin) {
+        GroupJoin join = loadAndVerifyPending(groupId, requestId, admin);
+
+        join.setStatus(JoinStatus.REJECTED);
+        groupJoinRepository.save(join);
+    }
+
+    // 공통 검증 사항 (승인 및 거절에 쓰임)
+    private GroupJoin loadAndVerifyPending(Long groupId, Long requestId, Member admin) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 그룹입니다."));
+        if(!group.getAdmin().getId().equals(admin.getId())){
+            throw new IllegalArgumentException("관리자만 처리할 수 있습니다.");
+        }
+        GroupJoin join = groupJoinRepository.findById(requestId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 요청입니다."));
+        if(!join.getGroup().getId().equals(groupId)){
+            throw new IllegalStateException("잘못된 그룹 요청입니다.");
+        }
+        if(join.getStatus() != JoinStatus.PENDING) {
+            throw new IllegalArgumentException("이미 처리된 요청입니다.");
+        }
+        return join;
+    }
+    // 가입 신청 목록 조회 (PENDING인 애들만 불러옴)
+    public List<JoinRequestDto> getJoinRequests(Long groupId, Member admin) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
+        if(!group.getAdmin().getId().equals(admin.getId())) {
+            throw new IllegalStateException("관리자만 조회할 수 있습니다.");
+        }
+
+        List<GroupJoin> joinRequests = groupJoinRepository.findAllByGroupIdAndStatusOrderByCreatedAt(groupId, JoinStatus.PENDING);
+
+        return joinRequests.stream()
+                .map(j-> new JoinRequestDto(
+                        j.getId(),
+                        j.getMember().getNickname(),
+                        j.getCreatedAt()
+                )).collect(Collectors.toList());
     }
 
 }
