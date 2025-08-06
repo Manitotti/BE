@@ -18,6 +18,8 @@ public class GroupJoin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String email;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -31,4 +33,13 @@ public class GroupJoin {
     private JoinStatus status;
 
     private LocalDateTime createdAt;
+
+    public static GroupJoin create(Member member, Groups group) {
+        GroupJoin join = new GroupJoin();
+        join.setMember(member);
+        join.setEmail(member.getEmail());
+        join.setGroup(group);
+        join.setStatus(JoinStatus.PENDING);
+        return join;
+    }
 }

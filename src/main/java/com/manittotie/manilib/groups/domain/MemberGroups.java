@@ -25,9 +25,17 @@ public class MemberGroups {
     @JoinColumn(name = "group_id", nullable = false)
     private Groups groups;
 
+
     @Builder
     public MemberGroups(Member member, Groups groups) {
         this.member = member;
         this.groups = groups;
+    }
+
+    public static MemberGroups create(Member member, Groups group) {
+        MemberGroups mg = new MemberGroups();
+        mg.setMember(member);
+        mg.setGroups(group);
+        return mg;
     }
 }
